@@ -113,7 +113,7 @@ namespace LoteriaMexicana.Forms
 
             AplicarModoRed();
         }
-        //ficha
+
         private void CargarImagenFicha()
         {
             try
@@ -446,11 +446,8 @@ namespace LoteriaMexicana.Forms
             this.Close();
         }
 
-        private void btnGuardarCarton_Click(object sender, EventArgs e)
+        private void GuardarCartonEnArchivo()
         {
-            if (_soyCliente)
-                return;
-
             try
             {
                 SaveFileDialog dlg = new SaveFileDialog
@@ -474,13 +471,24 @@ namespace LoteriaMexicana.Forms
 
                 File.WriteAllLines(dlg.FileName, lineas);
 
-                MessageBox.Show("Cartón guardado correctamente.", "Guardado",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(
+                    "Cartón guardado correctamente.",
+                    "Guardado",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error al guardar: " + ex.Message);
             }
+        }
+
+        private void btnGuardarCarton_Click(object sender, EventArgs e)
+        {
+            if (_soyCliente)
+                return;
+
+            GuardarCartonEnArchivo();
         }
 
         private void btnCargarCarton_Click(object sender, EventArgs e)
@@ -507,6 +515,7 @@ namespace LoteriaMexicana.Forms
                 }
 
                 int i = 0;
+                Carta[,] cartasCargadas = new Carta[CartonJugador.FILAS, CartonJugador.COLUMNAS];
 
                 for (int f = 0; f < CartonJugador.FILAS; f++)
                 {
@@ -522,12 +531,11 @@ namespace LoteriaMexicana.Forms
                             return;
                         }
 
-                        _carton.Cartas[f, c] = carta;
+                        cartasCargadas[f, c] = carta;
                     }
                 }
 
-                _carton.ReiniciarMarcadas();
-
+                _carton.CargarCartas(cartasCargadas);
                 ActualizarGridCarton();
 
                 picCartaActual.Image = null;
@@ -546,8 +554,11 @@ namespace LoteriaMexicana.Forms
 
                 AplicarModoRed();
 
-                MessageBox.Show("Cartón cargado correctamente.", "Cargado",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(
+                    "Cartón cargado correctamente.",
+                    "Cargado",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
@@ -560,7 +571,7 @@ namespace LoteriaMexicana.Forms
             if (_soyCliente)
             {
                 MessageBox.Show(
-                    "Los clientes no pueden crear un cartón nuevo durante una partida en red.",
+                    "Los clientes no pueden crear una tabla nueva durante una partida en red.",
                     "Acción no permitida",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
@@ -571,31 +582,51 @@ namespace LoteriaMexicana.Forms
             if (_baraja != null && _baraja.CartasCantadas.Count > 0)
             {
                 DialogResult respuesta = MessageBox.Show(
-                    "Ya hay cartas cantadas. Si creas otro cartón, se limpiarán tus marcas.\n\n¿Quieres continuar?",
-                    "Crear cartón",
+                    "Ya hay cartas cantadas. Si creas una tabla nueva, la partida se reiniciará.\n\n¿Quieres continuar?",
+                    "Crear tabla",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question);
 
                 if (respuesta != DialogResult.Yes)
                     return;
+
+                _baraja = new Baraja();
+                picCartaActual.Image = null;
+                lblContador.Text = "Cartas: 0 / 54";
+                LimpiarHistorial();
             }
 
-            DialogResult dobles = MessageBox.Show(
-                "¿Quieres permitir cartas repetidas en tu cartón?",
-                "Cartas dobles",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question);
+            using (FrmCrearCarton frm = new FrmCrearCarton(ObtenerTodasLasCartas()))
+            {
+                if (frm.ShowDialog(this) != DialogResult.OK)
+                    return;
 
-            bool permitirDobles = dobles == DialogResult.Yes;
+                _carton.CargarCartas(frm.CartasSeleccionadas);
+                ActualizarGridCarton();
 
-            _carton.CrearNuevoCarton(ObtenerTodasLasCartas(), permitirDobles);
-            ActualizarGridCarton();
+                _jugando = true;
+                _modoAuto = false;
 
-            MessageBox.Show(
-                permitirDobles ? "Cartón creado con cartas repetidas." : "Cartón creado sin cartas repetidas.",
-                "Cartón listo",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information);
+                btnAuto.Text = "Auto: OFF";
+                btnSacarCarta.Enabled = true;
+                btnAuto.Enabled = true;
+                btnReiniciar.Enabled = true;
+                btnGuardarCarton.Enabled = true;
+                btnCargarCarton.Enabled = true;
+                btnCrearCarton.Enabled = true;
+                nudVelocidad.Enabled = true;
+
+                AplicarModoRed();
+
+                DialogResult guardar = MessageBox.Show(
+                    "Tabla creada correctamente.\n\n¿Quieres guardarla ahora?",
+                    "Tabla lista",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (guardar == DialogResult.Yes)
+                    GuardarCartonEnArchivo();
+            }
         }
 
         private void ActualizarGridCarton()

@@ -5,8 +5,8 @@ namespace LoteriaMexicana.Models
 {
     public class CartonJugador
     {
-        public const int FILAS = 6;
-        public const int COLUMNAS = 6;
+        public const int FILAS = 4;
+        public const int COLUMNAS = 5;
         public const int TOTAL = FILAS * COLUMNAS;
 
         public Carta[,] Cartas { get; private set; }

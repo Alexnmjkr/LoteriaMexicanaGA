@@ -229,7 +229,7 @@ namespace LoteriaMexicana.Forms
         {
             if (!chkPermitirDobles.Checked && TieneDobles())
             {
-                MessageBox.Show("Tu tabla ya tiene cartas repetidas. Limpia la tabla o elimina los dobles antes de desactivar esta opción.");
+                MessageBox.Show("Tu tabla ya tiene cartas repetidas. Limpia la tabla antes de desactivar esta opción.");
                 chkPermitirDobles.Checked = true;
             }
         }
