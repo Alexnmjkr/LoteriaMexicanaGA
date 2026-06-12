@@ -25,44 +25,46 @@ namespace LoteriaMexicana.Forms
             CargarListaCartas();
         }
 
+        private void FrmCrearCarton_Load(object sender, EventArgs e)
+        {
+        }
+
         private void PrepararCasillas()
         {
             _casillas = new PictureBox[CartonJugador.FILAS, CartonJugador.COLUMNAS];
 
-            _casillas[0, 0] = pic00;
-            _casillas[0, 1] = pic01;
-            _casillas[0, 2] = pic02;
-            _casillas[0, 3] = pic03;
-            _casillas[0, 4] = pic04;
-
-            _casillas[1, 0] = pic10;
-            _casillas[1, 1] = pic11;
-            _casillas[1, 2] = pic12;
-            _casillas[1, 3] = pic13;
-            _casillas[1, 4] = pic14;
-
-            _casillas[2, 0] = pic20;
-            _casillas[2, 1] = pic21;
-            _casillas[2, 2] = pic22;
-            _casillas[2, 3] = pic23;
-            _casillas[2, 4] = pic24;
-
-            _casillas[3, 0] = pic30;
-            _casillas[3, 1] = pic31;
-            _casillas[3, 2] = pic32;
-            _casillas[3, 3] = pic33;
-            _casillas[3, 4] = pic34;
-
-            for (int f = 0; f < CartonJugador.FILAS; f++)
+            for (int fila = 0; fila < CartonJugador.FILAS; fila++)
             {
-                for (int c = 0; c < CartonJugador.COLUMNAS; c++)
+                for (int col = 0; col < CartonJugador.COLUMNAS; col++)
                 {
-                    _casillas[f, c].SizeMode = PictureBoxSizeMode.StretchImage;
-                    _casillas[f, c].BorderStyle = BorderStyle.FixedSingle;
-                    _casillas[f, c].BackColor = Color.White;
-                    _casillas[f, c].Cursor = Cursors.Hand;
+                    string nombre = $"pic{fila}{col}";
+                    PictureBox pic = ObtenerPictureBox(nombre);
+
+                    if (pic == null)
+                    {
+                        MessageBox.Show("Falta la casilla " + nombre + " en el formulario.");
+                        Close();
+                        return;
+                    }
+
+                    pic.SizeMode = PictureBoxSizeMode.StretchImage;
+                    pic.BorderStyle = BorderStyle.FixedSingle;
+                    pic.BackColor = Color.White;
+                    pic.Cursor = Cursors.Hand;
+
+                    _casillas[fila, col] = pic;
                 }
             }
+        }
+
+        private PictureBox ObtenerPictureBox(string nombre)
+        {
+            Control[] controles = Controls.Find(nombre, true);
+
+            if (controles.Length == 0)
+                return null;
+
+            return controles[0] as PictureBox;
         }
 
         private void CargarListaCartas()
@@ -188,7 +190,7 @@ namespace LoteriaMexicana.Forms
         {
             if (!CartonCompleto())
             {
-                MessageBox.Show("Debes llenar las 20 casillas de la tabla.");
+                MessageBox.Show("Debes llenar las 25 casillas de la tabla.");
                 return;
             }
 
@@ -232,11 +234,6 @@ namespace LoteriaMexicana.Forms
                 MessageBox.Show("Tu tabla ya tiene cartas repetidas. Limpia la tabla antes de desactivar esta opción.");
                 chkPermitirDobles.Checked = true;
             }
-        }
-
-        private void FrmCrearCarton_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }
