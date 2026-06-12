@@ -340,9 +340,9 @@
             // 
             // txtMensajeChat
             // 
-            this.txtMensajeChat.Location = new System.Drawing.Point(887, 589);
+            this.txtMensajeChat.Location = new System.Drawing.Point(887, 652);
             this.txtMensajeChat.Name = "txtMensajeChat";
-            this.txtMensajeChat.Size = new System.Drawing.Size(100, 26);
+            this.txtMensajeChat.Size = new System.Drawing.Size(300, 26);
             this.txtMensajeChat.TabIndex = 16;
             // 
             // btnEnviarChat
