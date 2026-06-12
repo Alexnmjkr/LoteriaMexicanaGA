@@ -8,6 +8,7 @@ using System.Media;
 using System.Net;
 using System.Net.Sockets;
 using System.Windows.Forms;
+using WMPLib;
 
 namespace LoteriaMexicana.Forms
 {
@@ -23,6 +24,7 @@ namespace LoteriaMexicana.Forms
             new PictureBox[CartonJugador.FILAS, CartonJugador.COLUMNAS];
 
         private Image _imagenFicha;
+        private WindowsMediaPlayer _playerCarta;
 
         private const int PUERTO = 5000;
 
@@ -143,6 +145,39 @@ namespace LoteriaMexicana.Forms
             }
         }
 
+        private void ReproducirAudioCarta(Carta carta)
+        {
+            if (carta == null)
+                return;
+
+            try
+            {
+                string ruta = Path.Combine(
+                    Application.StartupPath,
+                    "Resources",
+                    "Sounds",
+                    "Cartas",
+                    $"carta_{carta.Id}.mpeg");
+
+                if (!File.Exists(ruta))
+                {
+                    MessageBox.Show("No se encontró el audio:\n" + ruta);
+                    return;
+                }
+
+                if (_playerCarta == null)
+                    _playerCarta = new WindowsMediaPlayer();
+
+                _playerCarta.controls.stop();
+                _playerCarta.URL = ruta;
+                _playerCarta.controls.play();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al reproducir audio:\n" + ex.Message);
+            }
+        }
+
         private List<Carta> ObtenerTodasLasCartas()
         {
             Baraja temp = new Baraja();
@@ -234,6 +269,7 @@ namespace LoteriaMexicana.Forms
             picCartaActual.Image = carta.Imagen;
             lblContador.Text = $"Cartas: {_baraja.CartasCantadas.Count} / 54";
             AgregarAlHistorial(carta);
+            ReproducirAudioCarta(carta);
 
             if (_soyServidor && _servidor != null)
                 _servidor.Transmitir($"CARTA|{carta.Id}");
@@ -780,6 +816,7 @@ namespace LoteriaMexicana.Forms
             picCartaActual.Image = carta.Imagen;
             lblContador.Text = $"Cartas: {_baraja.CartasCantadas.Count} / 54";
             AgregarAlHistorial(carta);
+            ReproducirAudioCarta(carta);
         }
 
         private void AplicarModoRed()
