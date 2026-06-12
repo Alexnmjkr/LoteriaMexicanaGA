@@ -156,7 +156,6 @@ namespace LoteriaMexicana.Forms
                     Application.StartupPath,
                     "Resources",
                     "Sounds",
-                    "Cartas",
                     $"carta_{carta.Id}.mpeg");
 
                 if (!File.Exists(ruta))
