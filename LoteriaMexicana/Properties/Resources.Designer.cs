@@ -60,7 +60,9 @@ namespace LoteriaMexicana.Properties {
             }
         }
         
-     
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap alacran {
             get {
                 object obj = ResourceManager.GetObject("alacran", resourceCulture);
@@ -234,6 +236,16 @@ namespace LoteriaMexicana.Properties {
         internal static System.Drawing.Bitmap chalupa {
             get {
                 object obj = ResourceManager.GetObject("chalupa", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap configuracion {
+            get {
+                object obj = ResourceManager.GetObject("configuracion", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

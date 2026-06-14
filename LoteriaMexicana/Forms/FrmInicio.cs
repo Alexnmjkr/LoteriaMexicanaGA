@@ -1,7 +1,5 @@
 ﻿using LoteriaMexicana.Forms;
 using System;
-using System.IO;
-using System.Media;
 using System.Windows.Forms;
 
 namespace LoteriaMexicana
@@ -15,9 +13,17 @@ namespace LoteriaMexicana
 
         private void btnJugar_Click(object sender, EventArgs e)
         {
-            FrmJuego frmJuego = new FrmJuego();
-            frmJuego.Show();
-            this.Hide();
+            FrmConfiguracionPartida frmConfig = new FrmConfiguracionPartida();
+
+            if (frmConfig.ShowDialog() == DialogResult.OK)
+            {
+                FrmJuego frmJuego = new FrmJuego(
+                    frmConfig.CantidadCartones,
+                    frmConfig.OpcionesVictoria);
+
+                frmJuego.Show();
+                this.Hide();
+            }
         }
 
         private void btnInstrucciones_Click(object sender, EventArgs e)
@@ -30,5 +36,9 @@ namespace LoteriaMexicana
         {
             Application.Exit();
         }
+        private void FrmInicio_Load(object sender, EventArgs e)
+        {
+        }
     }
+
 }

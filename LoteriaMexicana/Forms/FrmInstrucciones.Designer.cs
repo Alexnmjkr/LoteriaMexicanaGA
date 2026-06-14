@@ -17,9 +17,9 @@
             this.lblTexto = new System.Windows.Forms.Label();
             this.btnRegresar = new System.Windows.Forms.Button();
             this.SuspendLayout();
-
+            // 
             // lblTexto
-          
+            // 
             this.lblTexto.BackColor = System.Drawing.Color.Transparent;
             this.lblTexto.Font = new System.Drawing.Font("Palatino Linotype", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTexto.ForeColor = System.Drawing.SystemColors.ControlLightLight;
@@ -28,8 +28,9 @@
             this.lblTexto.Size = new System.Drawing.Size(528, 400);
             this.lblTexto.TabIndex = 0;
             this.lblTexto.Text = resources.GetString("lblTexto.Text");
-       
+            // 
             // btnRegresar
+            // 
             this.btnRegresar.BackColor = System.Drawing.Color.Transparent;
             this.btnRegresar.Location = new System.Drawing.Point(479, 469);
             this.btnRegresar.Name = "btnRegresar";
@@ -39,14 +40,16 @@
             this.btnRegresar.Text = "Regresar";
             this.btnRegresar.UseVisualStyleBackColor = false;
             this.btnRegresar.Click += new System.EventHandler(this.btnRegresar_Click);
-      
+            // 
             // FrmInstrucciones
+            // 
             this.BackgroundImage = global::LoteriaMexicana.Properties.Resources.instrucciones;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.ClientSize = new System.Drawing.Size(1011, 557);
             this.Controls.Add(this.btnRegresar);
             this.Controls.Add(this.lblTexto);
             this.Name = "FrmInstrucciones";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Instrucciones";
             this.Load += new System.EventHandler(this.FrmInstrucciones_Load);
             this.ResumeLayout(false);

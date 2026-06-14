@@ -20,6 +20,7 @@
             this.lblContador = new System.Windows.Forms.Label();
             this.panelCarton = new System.Windows.Forms.Panel();
             this.btnSacarCarta = new System.Windows.Forms.Button();
+            this.btnBuenas = new System.Windows.Forms.Button();
             this.btnAuto = new System.Windows.Forms.Button();
             this.btnReiniciar = new System.Windows.Forms.Button();
             this.btnMenu = new System.Windows.Forms.Button();
@@ -69,7 +70,7 @@
             this.lblContador.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.lblContador.Location = new System.Drawing.Point(104, 264);
             this.lblContador.Name = "lblContador";
-            this.lblContador.Size = new System.Drawing.Size(79, 21);
+            this.lblContador.Size = new System.Drawing.Size(67, 19);
             this.lblContador.TabIndex = 1;
             this.lblContador.Text = "Contador";
             // 
@@ -90,6 +91,16 @@
             this.btnSacarCarta.Text = "Sacar Carta";
             this.btnSacarCarta.UseVisualStyleBackColor = true;
             this.btnSacarCarta.Click += new System.EventHandler(this.btnSacarCarta_Click);
+            // 
+            // btnBuenas
+            // 
+            this.btnBuenas.Location = new System.Drawing.Point(81, 351);
+            this.btnBuenas.Name = "btnBuenas";
+            this.btnBuenas.Size = new System.Drawing.Size(120, 32);
+            this.btnBuenas.TabIndex = 18;
+            this.btnBuenas.Text = "¡Buenas!";
+            this.btnBuenas.UseVisualStyleBackColor = true;
+            this.btnBuenas.Click += new System.EventHandler(this.btnBuenas_Click);
             // 
             // btnAuto
             // 
@@ -129,7 +140,7 @@
             this.lblCartaActual.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.lblCartaActual.Location = new System.Drawing.Point(76, 33);
             this.lblCartaActual.Name = "lblCartaActual";
-            this.lblCartaActual.Size = new System.Drawing.Size(125, 27);
+            this.lblCartaActual.Size = new System.Drawing.Size(107, 23);
             this.lblCartaActual.TabIndex = 7;
             this.lblCartaActual.Text = "Carta Actual";
             // 
@@ -171,7 +182,7 @@
             this.chkHorizontal.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkHorizontal.Location = new System.Drawing.Point(39, 54);
             this.chkHorizontal.Name = "chkHorizontal";
-            this.chkHorizontal.Size = new System.Drawing.Size(147, 24);
+            this.chkHorizontal.Size = new System.Drawing.Size(122, 20);
             this.chkHorizontal.TabIndex = 0;
             this.chkHorizontal.Text = "Línea horizontal";
             this.chkHorizontal.UseVisualStyleBackColor = true;
@@ -183,7 +194,7 @@
             this.chkVertical.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkVertical.Location = new System.Drawing.Point(39, 99);
             this.chkVertical.Name = "chkVertical";
-            this.chkVertical.Size = new System.Drawing.Size(127, 24);
+            this.chkVertical.Size = new System.Drawing.Size(108, 20);
             this.chkVertical.TabIndex = 1;
             this.chkVertical.Text = "Línea vertical";
             this.chkVertical.UseVisualStyleBackColor = true;
@@ -195,7 +206,7 @@
             this.chkDiagonal.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkDiagonal.Location = new System.Drawing.Point(39, 140);
             this.chkDiagonal.Name = "chkDiagonal";
-            this.chkDiagonal.Size = new System.Drawing.Size(98, 24);
+            this.chkDiagonal.Size = new System.Drawing.Size(84, 20);
             this.chkDiagonal.TabIndex = 2;
             this.chkDiagonal.Text = "Diagonal";
             this.chkDiagonal.UseVisualStyleBackColor = true;
@@ -207,7 +218,7 @@
             this.chkLleno.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkLleno.Location = new System.Drawing.Point(39, 180);
             this.chkLleno.Name = "chkLleno";
-            this.chkLleno.Size = new System.Drawing.Size(120, 24);
+            this.chkLleno.Size = new System.Drawing.Size(100, 20);
             this.chkLleno.TabIndex = 3;
             this.chkLleno.Text = "Cartón lleno";
             this.chkLleno.UseVisualStyleBackColor = true;
@@ -217,7 +228,7 @@
             this.lblVelocidad.AutoSize = true;
             this.lblVelocidad.Location = new System.Drawing.Point(35, 222);
             this.lblVelocidad.Name = "lblVelocidad";
-            this.lblVelocidad.Size = new System.Drawing.Size(123, 20);
+            this.lblVelocidad.Size = new System.Drawing.Size(106, 16);
             this.lblVelocidad.TabIndex = 4;
             this.lblVelocidad.Text = "Velocidad (seg):";
             // 
@@ -235,7 +246,7 @@
             0,
             0});
             this.nudVelocidad.Name = "nudVelocidad";
-            this.nudVelocidad.Size = new System.Drawing.Size(120, 26);
+            this.nudVelocidad.Size = new System.Drawing.Size(120, 22);
             this.nudVelocidad.TabIndex = 5;
             this.nudVelocidad.Value = new decimal(new int[] {
             3,
@@ -274,7 +285,7 @@
             this.lblEstadoRed.ForeColor = System.Drawing.SystemColors.Control;
             this.lblEstadoRed.Location = new System.Drawing.Point(930, 443);
             this.lblEstadoRed.Name = "lblEstadoRed";
-            this.lblEstadoRed.Size = new System.Drawing.Size(207, 25);
+            this.lblEstadoRed.Size = new System.Drawing.Size(170, 20);
             this.lblEstadoRed.TabIndex = 9;
             this.lblEstadoRed.Text = "Red Local: Sin conexión";
             // 
@@ -323,7 +334,7 @@
             // lstHistorial
             // 
             this.lstHistorial.FormattingEnabled = true;
-            this.lstHistorial.ItemHeight = 20;
+            this.lstHistorial.ItemHeight = 16;
             this.lstHistorial.Location = new System.Drawing.Point(304, 562);
             this.lstHistorial.Name = "lstHistorial";
             this.lstHistorial.Size = new System.Drawing.Size(455, 84);
@@ -332,7 +343,7 @@
             // lstChat
             // 
             this.lstChat.FormattingEnabled = true;
-            this.lstChat.ItemHeight = 20;
+            this.lstChat.ItemHeight = 16;
             this.lstChat.Location = new System.Drawing.Point(884, 562);
             this.lstChat.Name = "lstChat";
             this.lstChat.Size = new System.Drawing.Size(303, 84);
@@ -342,7 +353,7 @@
             // 
             this.txtMensajeChat.Location = new System.Drawing.Point(887, 652);
             this.txtMensajeChat.Name = "txtMensajeChat";
-            this.txtMensajeChat.Size = new System.Drawing.Size(300, 26);
+            this.txtMensajeChat.Size = new System.Drawing.Size(300, 22);
             this.txtMensajeChat.TabIndex = 16;
             // 
             // btnEnviarChat
@@ -375,11 +386,13 @@
             this.Controls.Add(this.btnMenu);
             this.Controls.Add(this.btnReiniciar);
             this.Controls.Add(this.btnAuto);
+            this.Controls.Add(this.btnBuenas);
             this.Controls.Add(this.btnSacarCarta);
             this.Controls.Add(this.panelCarton);
             this.Controls.Add(this.lblContador);
             this.Controls.Add(this.picCartaActual);
             this.Name = "FrmJuego";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Lotería Mexicana - Juego";
             this.Load += new System.EventHandler(this.FrmJuego_Load);
             ((System.ComponentModel.ISupportInitialize)(this.picCartaActual)).EndInit();
@@ -396,6 +409,7 @@
         private System.Windows.Forms.Label lblContador;
         private System.Windows.Forms.Panel panelCarton;
         private System.Windows.Forms.Button btnSacarCarta;
+        private System.Windows.Forms.Button btnBuenas;
         private System.Windows.Forms.Button btnAuto;
         private System.Windows.Forms.Button btnReiniciar;
         private System.Windows.Forms.Button btnMenu;
