@@ -829,137 +829,6 @@ namespace LoteriaMexicana.Forms
             }
         }
 
-        private void btnGuardarCarton_Click(object sender, EventArgs e)
-        {
-            if (_soyCliente)
-                return;
-
-            GuardarCartonEnArchivo();
-        }
-
-        private void btnCargarCarton_Click(object sender, EventArgs e)
-        {
-            if (_soyCliente)
-                return;
-
-            try
-            {
-                OpenFileDialog dlg = new OpenFileDialog
-                {
-                    Filter = "Cartón de Lotería (*.loteria)|*.loteria"
-                };
-
-                if (dlg.ShowDialog() != DialogResult.OK)
-                    return;
-
-                string[] lineas = File.ReadAllLines(dlg.FileName);
-
-                if (lineas.Length != CartonJugador.TOTAL)
-                {
-                    MessageBox.Show("El archivo no es un cartón válido.");
-                    return;
-                }
-
-                int i = 0;
-                Carta[,] cartasCargadas = new Carta[CartonJugador.FILAS, CartonJugador.COLUMNAS];
-
-                for (int f = 0; f < CartonJugador.FILAS; f++)
-                {
-                    for (int c = 0; c < CartonJugador.COLUMNAS; c++)
-                    {
-                        int id = int.Parse(lineas[i++]);
-
-                        Carta carta = BuscarCartaPorId(id);
-
-                        if (carta == null)
-                        {
-                            MessageBox.Show("No se encontró una carta con ID: " + id);
-                            return;
-                        }
-
-                        cartasCargadas[f, c] = carta;
-                    }
-                }
-
-                _carton.CargarCartas(cartasCargadas);
-                ActualizarGridCarton();
-
-                picCartaActual.Image = null;
-                lblContador.Text = "Cartas: 0 / 54";
-                LimpiarHistorial();
-
-                _baraja = new Baraja();
-                _jugando = true;
-                _modoAuto = false;
-
-                btnAuto.Text = "Auto: OFF";
-                btnAuto.Enabled = true;
-                btnSacarCarta.Enabled = true;
-                btnCrearCarton.Enabled = true;
-                btnBuenas.Enabled = true;
-                nudVelocidad.Enabled = true;
-
-                AplicarModoRed();
-
-                MessageBox.Show(
-                    "Cartón cargado correctamente.",
-                    "Cargado",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cargar: " + ex.Message);
-            }
-        }
-
-        private void btnCrearCarton_Click(object sender, EventArgs e)
-        {
-            if (_soyCliente)
-            {
-                MessageBox.Show(
-                    "Los clientes no pueden crear una tabla nueva durante una partida en red.",
-                    "Acción no permitida",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
-
-                return;
-            }
-
-            using (FrmCrearCarton frm = new FrmCrearCarton(ObtenerTodasLasCartas()))
-            {
-                if (frm.ShowDialog(this) != DialogResult.OK)
-                    return;
-
-                _carton.CargarCartas(frm.CartasSeleccionadas);
-                ActualizarGridCarton();
-
-                _jugando = true;
-                _modoAuto = false;
-
-                btnAuto.Text = "Auto: OFF";
-                btnSacarCarta.Enabled = true;
-                btnAuto.Enabled = true;
-                btnReiniciar.Enabled = true;
-                btnGuardarCarton.Enabled = true;
-                btnCargarCarton.Enabled = true;
-                btnCrearCarton.Enabled = true;
-                btnBuenas.Enabled = true;
-                nudVelocidad.Enabled = true;
-
-                AplicarModoRed();
-
-                DialogResult guardar = MessageBox.Show(
-                    "Tabla creada correctamente.\n\n¿Quieres guardarla ahora?",
-                    "Tabla lista",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question);
-
-                if (guardar == DialogResult.Yes)
-                    GuardarCartonEnArchivo();
-            }
-        }
-
         private void ActualizarGridCarton()
         {
             if (_carton == null)
@@ -1331,6 +1200,137 @@ namespace LoteriaMexicana.Forms
                 "Validación",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information);
+        }
+
+        private void btnGuardarCarton_Click_1(object sender, EventArgs e)
+        {
+            if (_soyCliente)
+                return;
+
+            GuardarCartonEnArchivo();
+        }
+
+        private void btnCargarCarton_Click_1(object sender, EventArgs e)
+        {
+            if (_soyCliente)
+                return;
+
+            try
+            {
+                OpenFileDialog dlg = new OpenFileDialog
+                {
+                    Filter = "Cartón de Lotería (*.loteria)|*.loteria"
+                };
+
+                if (dlg.ShowDialog() != DialogResult.OK)
+                    return;
+
+                string[] lineas = File.ReadAllLines(dlg.FileName);
+
+                if (lineas.Length != CartonJugador.TOTAL)
+                {
+                    MessageBox.Show("El archivo no es un cartón válido.");
+                    return;
+                }
+
+                int i = 0;
+                Carta[,] cartasCargadas = new Carta[CartonJugador.FILAS, CartonJugador.COLUMNAS];
+
+                for (int f = 0; f < CartonJugador.FILAS; f++)
+                {
+                    for (int c = 0; c < CartonJugador.COLUMNAS; c++)
+                    {
+                        int id = int.Parse(lineas[i++]);
+
+                        Carta carta = BuscarCartaPorId(id);
+
+                        if (carta == null)
+                        {
+                            MessageBox.Show("No se encontró una carta con ID: " + id);
+                            return;
+                        }
+
+                        cartasCargadas[f, c] = carta;
+                    }
+                }
+
+                _carton.CargarCartas(cartasCargadas);
+                ActualizarGridCarton();
+
+                picCartaActual.Image = null;
+                lblContador.Text = "Cartas: 0 / 54";
+                LimpiarHistorial();
+
+                _baraja = new Baraja();
+                _jugando = true;
+                _modoAuto = false;
+
+                btnAuto.Text = "Auto: OFF";
+                btnAuto.Enabled = true;
+                btnSacarCarta.Enabled = true;
+                btnCrearCarton.Enabled = true;
+                btnBuenas.Enabled = true;
+                nudVelocidad.Enabled = true;
+
+                AplicarModoRed();
+
+                MessageBox.Show(
+                    "Cartón cargado correctamente.",
+                    "Cargado",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar: " + ex.Message);
+            }
+        }
+
+        private void btnCrearCarton_Click_1(object sender, EventArgs e)
+        {
+            if (_soyCliente)
+            {
+                MessageBox.Show(
+                    "Los clientes no pueden crear una tabla nueva durante una partida en red.",
+                    "Acción no permitida",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                return;
+            }
+
+            using (FrmCrearCarton frm = new FrmCrearCarton(ObtenerTodasLasCartas()))
+            {
+                if (frm.ShowDialog(this) != DialogResult.OK)
+                    return;
+
+                _carton.CargarCartas(frm.CartasSeleccionadas);
+                ActualizarGridCarton();
+
+                _jugando = true;
+                _modoAuto = false;
+
+                btnAuto.Text = "Auto: OFF";
+                btnSacarCarta.Enabled = true;
+                btnAuto.Enabled = true;
+                btnReiniciar.Enabled = true;
+                btnGuardarCarton.Enabled = true;
+                btnCargarCarton.Enabled = true;
+                btnCrearCarton.Enabled = true;
+                btnBuenas.Enabled = true;
+                nudVelocidad.Enabled = true;
+
+                AplicarModoRed();
+
+                DialogResult guardar = MessageBox.Show(
+                    "Tabla creada correctamente.\n\n¿Quieres guardarla ahora?",
+                    "Tabla lista",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (guardar == DialogResult.Yes)
+                    GuardarCartonEnArchivo();
+            }
         }
     }
 }

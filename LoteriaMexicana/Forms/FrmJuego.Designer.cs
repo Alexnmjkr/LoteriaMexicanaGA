@@ -32,8 +32,6 @@
             this.chkLleno = new System.Windows.Forms.CheckBox();
             this.lblVelocidad = new System.Windows.Forms.Label();
             this.nudVelocidad = new System.Windows.Forms.NumericUpDown();
-            this.btnCargarCarton = new System.Windows.Forms.Button();
-            this.btnGuardarCarton = new System.Windows.Forms.Button();
             this.lblEstadoRed = new System.Windows.Forms.Label();
             this.btnCrearPartida = new System.Windows.Forms.Button();
             this.btnUnirsePartida = new System.Windows.Forms.Button();
@@ -44,6 +42,8 @@
             this.txtMensajeChat = new System.Windows.Forms.TextBox();
             this.btnEnviarChat = new System.Windows.Forms.Button();
             this.btnCrearCarton = new System.Windows.Forms.Button();
+            this.btnCargarCarton = new System.Windows.Forms.Button();
+            this.btnGuardarCarton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.picCartaActual)).BeginInit();
             this.grpModoVictoria.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudVelocidad)).BeginInit();
@@ -234,28 +234,6 @@
             0});
             this.nudVelocidad.ValueChanged += new System.EventHandler(this.nudVelocidad_ValueChanged);
             // 
-            // btnCargarCarton
-            // 
-            this.btnCargarCarton.Location = new System.Drawing.Point(1130, 175);
-            this.btnCargarCarton.Name = "btnCargarCarton";
-            this.btnCargarCarton.Size = new System.Drawing.Size(130, 35);
-            this.btnCargarCarton.TabIndex = 13;
-            this.btnCargarCarton.Text = "Cargar cartón";
-            this.btnCargarCarton.UseVisualStyleBackColor = true;
-            this.btnCargarCarton.Visible = false;
-            this.btnCargarCarton.Click += new System.EventHandler(this.btnCargarCarton_Click);
-            // 
-            // btnGuardarCarton
-            // 
-            this.btnGuardarCarton.Location = new System.Drawing.Point(1130, 220);
-            this.btnGuardarCarton.Name = "btnGuardarCarton";
-            this.btnGuardarCarton.Size = new System.Drawing.Size(130, 35);
-            this.btnGuardarCarton.TabIndex = 14;
-            this.btnGuardarCarton.Text = "Guardar cartón";
-            this.btnGuardarCarton.UseVisualStyleBackColor = true;
-            this.btnGuardarCarton.Visible = false;
-            this.btnGuardarCarton.Click += new System.EventHandler(this.btnGuardarCarton_Click);
-            // 
             // lblEstadoRed
             // 
             this.lblEstadoRed.AutoSize = true;
@@ -350,14 +328,33 @@
             // 
             // btnCrearCarton
             // 
-            this.btnCrearCarton.Location = new System.Drawing.Point(1130, 134);
+            this.btnCrearCarton.Location = new System.Drawing.Point(1130, 261);
             this.btnCrearCarton.Name = "btnCrearCarton";
-            this.btnCrearCarton.Size = new System.Drawing.Size(130, 35);
-            this.btnCrearCarton.TabIndex = 12;
+            this.btnCrearCarton.Size = new System.Drawing.Size(130, 34);
+            this.btnCrearCarton.TabIndex = 24;
             this.btnCrearCarton.Text = "Crear cartón";
             this.btnCrearCarton.UseVisualStyleBackColor = true;
-            this.btnCrearCarton.Visible = false;
-            this.btnCrearCarton.Click += new System.EventHandler(this.btnCrearCarton_Click);
+            this.btnCrearCarton.Click += new System.EventHandler(this.btnCrearCarton_Click_1);
+            // 
+            // btnCargarCarton
+            // 
+            this.btnCargarCarton.Location = new System.Drawing.Point(1130, 301);
+            this.btnCargarCarton.Name = "btnCargarCarton";
+            this.btnCargarCarton.Size = new System.Drawing.Size(130, 36);
+            this.btnCargarCarton.TabIndex = 25;
+            this.btnCargarCarton.Text = "Cargar cartón";
+            this.btnCargarCarton.UseVisualStyleBackColor = true;
+            this.btnCargarCarton.Click += new System.EventHandler(this.btnCargarCarton_Click_1);
+            // 
+            // btnGuardarCarton
+            // 
+            this.btnGuardarCarton.Location = new System.Drawing.Point(1130, 343);
+            this.btnGuardarCarton.Name = "btnGuardarCarton";
+            this.btnGuardarCarton.Size = new System.Drawing.Size(130, 36);
+            this.btnGuardarCarton.TabIndex = 26;
+            this.btnGuardarCarton.Text = "Guardar cartón";
+            this.btnGuardarCarton.UseVisualStyleBackColor = true;
+            this.btnGuardarCarton.Click += new System.EventHandler(this.btnGuardarCarton_Click_1);
             // 
             // FrmJuego
             // 
@@ -365,6 +362,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::LoteriaMexicana.Properties.Resources.juego;
             this.ClientSize = new System.Drawing.Size(1396, 830);
+            this.Controls.Add(this.btnGuardarCarton);
+            this.Controls.Add(this.btnCargarCarton);
+            this.Controls.Add(this.btnCrearCarton);
             this.Controls.Add(this.btnEnviarChat);
             this.Controls.Add(this.txtMensajeChat);
             this.Controls.Add(this.lstChat);
@@ -374,9 +374,6 @@
             this.Controls.Add(this.btnUnirsePartida);
             this.Controls.Add(this.btnCrearPartida);
             this.Controls.Add(this.lblEstadoRed);
-            this.Controls.Add(this.btnGuardarCarton);
-            this.Controls.Add(this.btnCargarCarton);
-            this.Controls.Add(this.btnCrearCarton);
             this.Controls.Add(this.grpModoVictoria);
             this.Controls.Add(this.nudVelocidad);
             this.Controls.Add(this.lblVelocidad);
@@ -421,8 +418,6 @@
 
         private System.Windows.Forms.Label lblVelocidad;
         private System.Windows.Forms.NumericUpDown nudVelocidad;
-        private System.Windows.Forms.Button btnCargarCarton;
-        private System.Windows.Forms.Button btnGuardarCarton;
 
         private System.Windows.Forms.Label lblEstadoRed;
         private System.Windows.Forms.Button btnCrearPartida;
@@ -436,5 +431,7 @@
         private System.Windows.Forms.TextBox txtMensajeChat;
         private System.Windows.Forms.Button btnEnviarChat;
         private System.Windows.Forms.Button btnCrearCarton;
+        private System.Windows.Forms.Button btnCargarCarton;
+        private System.Windows.Forms.Button btnGuardarCarton;
     }
 }
