@@ -883,7 +883,7 @@ namespace LoteriaMexicana.Forms
                 _servidor = new ServidorLoteria();
 
                 _servidor.ClienteConectado += ip => EjecutarEnPantalla(() =>
-                    lblEstadoRed.Text = "Cliente conectado:\\n " + ip);
+                    lblEstadoRed.Text = "Cliente conectado:\n " + ip);
 
                 _servidor.MensajeRecibido += ProcesarMensajeRed;
 
@@ -895,7 +895,7 @@ namespace LoteriaMexicana.Forms
                 _soyServidor = true;
                 _soyCliente = false;
 
-                lblEstadoRed.Text = "Servidor activo. IP:\\n " + ObtenerIpLocal();
+                lblEstadoRed.Text = "Servidor activo. IP:\n " + ObtenerIpLocal();
 
                 AplicarModoRed();
 

@@ -21,7 +21,7 @@ namespace LoteriaMexicana.Forms
         private void ConfigurarValoresIniciales()
         {
             nudCantidadCartones.Minimum = 1;
-            nudCantidadCartones.Maximum = 10;
+            nudCantidadCartones.Maximum = 100;
             nudCantidadCartones.Value = 1;
 
         }
