@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,8 @@ namespace LoteriaMexicana.Forms
             new bool[5, 5];
 
         public bool[,] PatronSeleccionado { get; private set; }
+
+        int[,] patronVictoria = new int[5, 5]; 
 
         public FrmPersonalizarVictoria()
         {
@@ -77,22 +80,6 @@ namespace LoteriaMexicana.Forms
                     ActualizarAparienciaCasilla(fila, columna);
                 }
             }
-
-            Button btnAceptar = new Button();
-            btnAceptar.Name = "btnAceptar";
-            btnAceptar.Text = "Aceptar";
-            btnAceptar.Size = new Size(100, 35);
-            btnAceptar.Location = new Point(120, 410);
-            btnAceptar.Click += new EventHandler(btnAceptar_Click);
-            Controls.Add(btnAceptar);
-
-            Button btnCancelar = new Button();
-            btnCancelar.Name = "btnCancelar";
-            btnCancelar.Text = "Cancelar";
-            btnCancelar.Size = new Size(100, 35);
-            btnCancelar.Location = new Point(250, 410);
-            btnCancelar.Click += new EventHandler(btnCancelar_Click);
-            Controls.Add(btnCancelar);
         }
 
         private void btnCasilla_Click(object sender, EventArgs e)
@@ -130,30 +117,6 @@ namespace LoteriaMexicana.Forms
             }
         }
 
-        private void btnAceptar_Click(object sender, EventArgs e)
-        {
-            if (!TieneCasillasSeleccionadas())
-            {
-                MessageBox.Show(
-                    "Selecciona al menos una casilla para el patrón personalizado.",
-                    "Patrón personalizado",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
-                return;
-            }
-
-            PatronSeleccionado = CopiarCasillasSeleccionadas();
-            DialogResult = DialogResult.OK;
-            Close();
-        }
-
-        private void btnCancelar_Click(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
-            Close();
-        }
-
         private bool TieneCasillasSeleccionadas()
         {
             for (int fila = 0; fila < 5; fila++)
@@ -183,5 +146,57 @@ namespace LoteriaMexicana.Forms
 
             return patronCopia;
         }
+        private void GuardarPatron(string nombre, bool[,] patron)
+        {
+            string carpeta = Application.StartupPath + "\\MisFormasDeVictoria";
+            if (!Directory.Exists(carpeta))
+                Directory.CreateDirectory(carpeta);
+
+            string ruta = carpeta + "\\" + nombre + ".txt";
+
+            string valoresPlanos = "";
+            for (int i = 0; i < 5; i++)
+            {
+                for (int j = 0; j < 5; j++)
+                {
+                    if (valoresPlanos != "")
+                        valoresPlanos += ",";
+                    valoresPlanos += patron[i, j] ? "1" : "0";
+                }
+            }
+
+            string[] lineas = new string[2];
+            lineas[0] = nombre;
+            lineas[1] = valoresPlanos;
+            File.WriteAllLines(ruta, lineas);
+        }
+
+        private void btnCancelar_Click_1(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Cancel;
+            Close();
+        }
+
+
+        private void btnGuardar_Click(object sender, EventArgs e)
+        {
+            if (!TieneCasillasSeleccionadas())
+            {
+                MessageBox.Show(
+                    "Selecciona al menos una casilla para el patrón personalizado.",
+                    "Patrón personalizado",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
+
+            PatronSeleccionado = CopiarCasillasSeleccionadas();
+            GuardarPatron(txtbNombreNuevaVictoria.Text, PatronSeleccionado);
+
+            this.DialogResult = DialogResult.OK;
+            this.Close();
+        }
+
     }
 }
