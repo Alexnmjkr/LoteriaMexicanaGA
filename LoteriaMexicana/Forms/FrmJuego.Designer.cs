@@ -240,7 +240,7 @@
             this.lblEstadoRed.BackColor = System.Drawing.Color.Transparent;
             this.lblEstadoRed.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.lblEstadoRed.ForeColor = System.Drawing.Color.White;
-            this.lblEstadoRed.Location = new System.Drawing.Point(51, 599);
+            this.lblEstadoRed.Location = new System.Drawing.Point(51, 754);
             this.lblEstadoRed.Name = "lblEstadoRed";
             this.lblEstadoRed.Size = new System.Drawing.Size(172, 20);
             this.lblEstadoRed.TabIndex = 9;
@@ -248,7 +248,7 @@
             // 
             // btnCrearPartida
             // 
-            this.btnCrearPartida.Location = new System.Drawing.Point(70, 636);
+            this.btnCrearPartida.Location = new System.Drawing.Point(70, 598);
             this.btnCrearPartida.Name = "btnCrearPartida";
             this.btnCrearPartida.Size = new System.Drawing.Size(130, 35);
             this.btnCrearPartida.TabIndex = 16;
@@ -258,7 +258,7 @@
             // 
             // btnUnirsePartida
             // 
-            this.btnUnirsePartida.Location = new System.Drawing.Point(70, 686);
+            this.btnUnirsePartida.Location = new System.Drawing.Point(70, 648);
             this.btnUnirsePartida.Name = "btnUnirsePartida";
             this.btnUnirsePartida.Size = new System.Drawing.Size(130, 35);
             this.btnUnirsePartida.TabIndex = 17;
@@ -269,7 +269,7 @@
             // btnDesconectarRed
             // 
             this.btnDesconectarRed.Enabled = false;
-            this.btnDesconectarRed.Location = new System.Drawing.Point(56, 739);
+            this.btnDesconectarRed.Location = new System.Drawing.Point(56, 701);
             this.btnDesconectarRed.Name = "btnDesconectarRed";
             this.btnDesconectarRed.Size = new System.Drawing.Size(160, 35);
             this.btnDesconectarRed.TabIndex = 18;

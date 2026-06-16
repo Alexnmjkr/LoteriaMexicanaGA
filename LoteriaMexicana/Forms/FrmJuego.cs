@@ -46,6 +46,8 @@ namespace LoteriaMexicana.Forms
         private bool _soyCliente = false;
         private string _nombreJugador = "Jugador";
 
+        List<string> cartonesUsados = new List<string>();
+
         public FrmJuego(int cantidadCartones, OpcionesVictoria opcionesVictoria)
         {
             InitializeComponent();
@@ -677,6 +679,8 @@ namespace LoteriaMexicana.Forms
             pic.Image = bmp;
         }
 
+
+
         private void VerificarVictoria()
         {
             if (!CumpleModoVictoria(_carton))
@@ -879,7 +883,7 @@ namespace LoteriaMexicana.Forms
                 _servidor = new ServidorLoteria();
 
                 _servidor.ClienteConectado += ip => EjecutarEnPantalla(() =>
-                    lblEstadoRed.Text = "Cliente conectado: " + ip);
+                    lblEstadoRed.Text = "Cliente conectado:\\n " + ip);
 
                 _servidor.MensajeRecibido += ProcesarMensajeRed;
 
@@ -891,7 +895,7 @@ namespace LoteriaMexicana.Forms
                 _soyServidor = true;
                 _soyCliente = false;
 
-                lblEstadoRed.Text = "Servidor activo. IP: " + ObtenerIpLocal();
+                lblEstadoRed.Text = "Servidor activo. IP:\\n " + ObtenerIpLocal();
 
                 AplicarModoRed();
 
@@ -936,7 +940,7 @@ namespace LoteriaMexicana.Forms
                 _soyServidor = false;
                 _soyCliente = true;
 
-                lblEstadoRed.Text = "Conectado al servidor: " + ip;
+                lblEstadoRed.Text = "Conectado al servidor:\\n " + ip;
 
                 AplicarModoRed();
             }
@@ -1215,76 +1219,96 @@ namespace LoteriaMexicana.Forms
             if (_soyCliente)
                 return;
 
-            try
+            OpenFileDialog dialogo = new OpenFileDialog();
+            dialogo.Filter = "Cartón de Lotería (*.loteria)|*.loteria";
+
+            if (dialogo.ShowDialog() == DialogResult.OK)
             {
-                OpenFileDialog dlg = new OpenFileDialog
+                string nombreCarton = Path.GetFileNameWithoutExtension(dialogo.FileName);
+
+                if (cartonesUsados.Contains(nombreCarton))
                 {
-                    Filter = "Cartón de Lotería (*.loteria)|*.loteria"
-                };
-
-                if (dlg.ShowDialog() != DialogResult.OK)
-                    return;
-
-                string[] lineas = File.ReadAllLines(dlg.FileName);
-
-                if (lineas.Length != CartonJugador.TOTAL)
-                {
-                    MessageBox.Show("El archivo no es un cartón válido.");
+                    MessageBox.Show(
+                        "Este cartón ya fue cargado. Elige uno diferente.",
+                        "Cartón duplicado",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
                     return;
                 }
 
-                int i = 0;
-                Carta[,] cartasCargadas = new Carta[CartonJugador.FILAS, CartonJugador.COLUMNAS];
+                cartonesUsados.Add(nombreCarton);
 
-                for (int f = 0; f < CartonJugador.FILAS; f++)
+                try
                 {
-                    for (int c = 0; c < CartonJugador.COLUMNAS; c++)
+                    OpenFileDialog dlg = new OpenFileDialog
                     {
-                        int id = int.Parse(lineas[i++]);
+                        Filter = "Cartón de Lotería (*.loteria)|*.loteria"
+                    };
 
-                        Carta carta = BuscarCartaPorId(id);
+                    if (dlg.ShowDialog() != DialogResult.OK)
+                        return;
 
-                        if (carta == null)
-                        {
-                            MessageBox.Show("No se encontró una carta con ID: " + id);
-                            return;
-                        }
+                    string[] lineas = File.ReadAllLines(dlg.FileName);
 
-                        cartasCargadas[f, c] = carta;
+                    if (lineas.Length != CartonJugador.TOTAL)
+                    {
+                        MessageBox.Show("El archivo no es un cartón válido.");
+                        return;
                     }
+
+                    int i = 0;
+                    Carta[,] cartasCargadas = new Carta[CartonJugador.FILAS, CartonJugador.COLUMNAS];
+
+                    for (int f = 0; f < CartonJugador.FILAS; f++)
+                    {
+                        for (int c = 0; c < CartonJugador.COLUMNAS; c++)
+                        {
+                            int id = int.Parse(lineas[i++]);
+
+                            Carta carta = BuscarCartaPorId(id);
+
+                            if (carta == null)
+                            {
+                                MessageBox.Show("No se encontró una carta con ID: " + id);
+                                return;
+                            }
+
+                            cartasCargadas[f, c] = carta;
+                        }
+                    }
+
+                    _carton.CargarCartas(cartasCargadas);
+                    ActualizarGridCarton();
+
+                    picCartaActual.Image = null;
+                    lblContador.Text = "Cartas: 0 / 54";
+                    LimpiarHistorial();
+
+                    _baraja = new Baraja();
+                    _jugando = true;
+                    _modoAuto = false;
+
+                    btnAuto.Text = "Auto: OFF";
+                    btnAuto.Enabled = true;
+                    btnSacarCarta.Enabled = true;
+                    btnCrearCarton.Enabled = true;
+                    btnBuenas.Enabled = true;
+                    nudVelocidad.Enabled = true;
+
+                    AplicarModoRed();
+
+                    MessageBox.Show(
+                        "Cartón cargado correctamente.",
+                        "Cargado",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
                 }
-
-                _carton.CargarCartas(cartasCargadas);
-                ActualizarGridCarton();
-
-                picCartaActual.Image = null;
-                lblContador.Text = "Cartas: 0 / 54";
-                LimpiarHistorial();
-
-                _baraja = new Baraja();
-                _jugando = true;
-                _modoAuto = false;
-
-                btnAuto.Text = "Auto: OFF";
-                btnAuto.Enabled = true;
-                btnSacarCarta.Enabled = true;
-                btnCrearCarton.Enabled = true;
-                btnBuenas.Enabled = true;
-                nudVelocidad.Enabled = true;
-
-                AplicarModoRed();
-
-                MessageBox.Show(
-                    "Cartón cargado correctamente.",
-                    "Cargado",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al cargar: " + ex.Message);
+                }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cargar: " + ex.Message);
-            }
-        }
+        }   
 
         private void btnCrearCarton_Click_1(object sender, EventArgs e)
         {
