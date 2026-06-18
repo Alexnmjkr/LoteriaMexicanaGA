@@ -1181,7 +1181,10 @@ namespace LoteriaMexicana.Forms
                 _servidor = new ServidorLoteria();
 
                 _servidor.ClienteConectado += ip => EjecutarEnPantalla(() =>
-                    lblEstadoRed.Text = "Cliente conectado:\n " + ip);
+                {
+                    lblEstadoRed.Text = "Cliente conectado:\n " + ip;
+                    EnviarEstadoActualRed();
+                });
 
                 _servidor.MensajeRecibido += ProcesarMensajeRed;
 
@@ -1234,11 +1237,12 @@ namespace LoteriaMexicana.Forms
                     MessageBox.Show("Error de cliente: " + msg));
 
                 _cliente.Conectar(ip, PUERTO);
+                _cliente.Enviar($"JOIN|{_nombreJugador}");
 
                 _soyServidor = false;
                 _soyCliente = true;
 
-                lblEstadoRed.Text = "Conectado al servidor:\\n " + ip;
+                lblEstadoRed.Text = "Conectado al servidor:\n " + ip;
 
                 AplicarModoRed();
             }
@@ -1267,6 +1271,17 @@ namespace LoteriaMexicana.Forms
                 else if (mensaje == "REINICIAR")
                 {
                     InicializarJuego();
+                }
+                else if (mensaje.StartsWith("SYNC|"))
+                {
+                    SincronizarCartasCantadas(mensaje.Substring(5));
+                }
+                else if (mensaje.StartsWith("JOIN|"))
+                {
+                    string jugador = mensaje.Substring(5);
+
+                    if (!string.IsNullOrWhiteSpace(jugador))
+                        AgregarMensajeChat(jugador + " se unió a la partida.");
                 }
                 else if (mensaje.StartsWith("GANADOR|"))
                 {
@@ -1302,11 +1317,52 @@ namespace LoteriaMexicana.Forms
             if (carta == null)
                 return;
 
+            bool yaEstabaCantada = _baraja.CartasCantadas.Exists(c => c.Id == id);
+
             _baraja.RegistrarCartaCantada(id);
             picCartaActual.Image = carta.Imagen;
             lblContador.Text = $"Cartas: {_baraja.CartasCantadas.Count} / 54";
-            AgregarAlHistorial(carta);
+
+            if (!yaEstabaCantada)
+                AgregarAlHistorial(carta);
+
             ReproducirAudioCarta(carta);
+        }
+
+        private void SincronizarCartasCantadas(string ids)
+        {
+            if (string.IsNullOrWhiteSpace(ids))
+                return;
+
+            string[] partes = ids.Split(',');
+
+            foreach (string parte in partes)
+            {
+                int id;
+
+                if (int.TryParse(parte, out id))
+                    MostrarCartaRecibida(id);
+            }
+
+            AplicarModoRed();
+        }
+
+        private void EnviarEstadoActualRed()
+        {
+            if (!_soyServidor || _servidor == null || _baraja == null)
+                return;
+
+            string ids = "";
+
+            for (int i = 0; i < _baraja.CartasCantadas.Count; i++)
+            {
+                if (i > 0)
+                    ids += ",";
+
+                ids += _baraja.CartasCantadas[i].Id.ToString();
+            }
+
+            _servidor.Transmitir("SYNC|" + ids);
         }
 
         private void AplicarModoRed()
@@ -1377,11 +1433,36 @@ namespace LoteriaMexicana.Forms
 
             foreach (IPAddress ip in Dns.GetHostEntry(Dns.GetHostName()).AddressList)
             {
-                if (ip.AddressFamily == AddressFamily.InterNetwork)
-                    ipLocal = ip.ToString();
+                if (ip.AddressFamily != AddressFamily.InterNetwork)
+                    continue;
+
+                string texto = ip.ToString();
+
+                if (texto.StartsWith("192.168.") ||
+                    texto.StartsWith("10.") ||
+                    EsIpPrivada172(texto))
+                    return texto;
+
+                if (ipLocal == "127.0.0.1" && texto != "127.0.0.1")
+                    ipLocal = texto;
             }
 
             return ipLocal;
+        }
+
+        private bool EsIpPrivada172(string ip)
+        {
+            string[] partes = ip.Split('.');
+
+            if (partes.Length < 2 || partes[0] != "172")
+                return false;
+
+            int segundo;
+
+            if (!int.TryParse(partes[1], out segundo))
+                return false;
+
+            return segundo >= 16 && segundo <= 31;
         }
 
         private string PedirTexto(string titulo, string mensaje, string valorInicial)
