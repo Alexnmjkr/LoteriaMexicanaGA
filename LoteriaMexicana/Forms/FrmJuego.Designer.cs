@@ -14,124 +14,128 @@
 
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.timerAuto = new System.Windows.Forms.Timer(this.components);
-            this.picCartaActual = new System.Windows.Forms.PictureBox();
             this.lblContador = new System.Windows.Forms.Label();
             this.panelCarton = new System.Windows.Forms.Panel();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.btnSacarCarta = new System.Windows.Forms.Button();
             this.btnBuenas = new System.Windows.Forms.Button();
             this.btnAuto = new System.Windows.Forms.Button();
             this.btnReiniciar = new System.Windows.Forms.Button();
-            this.btnMenu = new System.Windows.Forms.Button();
             this.lblCartaActual = new System.Windows.Forms.Label();
-            this.grpModoVictoria = new System.Windows.Forms.GroupBox();
-            this.chkHorizontal = new System.Windows.Forms.CheckBox();
-            this.chkVertical = new System.Windows.Forms.CheckBox();
-            this.chkDiagonal = new System.Windows.Forms.CheckBox();
-            this.chkLleno = new System.Windows.Forms.CheckBox();
             this.lblVelocidad = new System.Windows.Forms.Label();
             this.nudVelocidad = new System.Windows.Forms.NumericUpDown();
-            this.lblEstadoRed = new System.Windows.Forms.Label();
-            this.btnCrearPartida = new System.Windows.Forms.Button();
-            this.btnUnirsePartida = new System.Windows.Forms.Button();
-            this.btnDesconectarRed = new System.Windows.Forms.Button();
-            this.lblTituloHistorial = new System.Windows.Forms.Label();
             this.lstHistorial = new System.Windows.Forms.ListBox();
+            this.picCartaActual = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pnlConfigLateral = new System.Windows.Forms.Panel();
             this.lstChat = new System.Windows.Forms.ListBox();
-            this.txtMensajeChat = new System.Windows.Forms.TextBox();
+            this.btnCrearPartida = new System.Windows.Forms.Button();
             this.btnEnviarChat = new System.Windows.Forms.Button();
-            this.btnCrearCarton = new System.Windows.Forms.Button();
-            this.btnCargarCarton = new System.Windows.Forms.Button();
             this.btnGuardarCarton = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.picCartaActual)).BeginInit();
-            this.grpModoVictoria.SuspendLayout();
+            this.txtMensajeChat = new System.Windows.Forms.TextBox();
+            this.lblTitulo_Lateral = new System.Windows.Forms.Label();
+            this.btnCargarCarton = new System.Windows.Forms.Button();
+            this.btnDesconectarRed = new System.Windows.Forms.Button();
+            this.btnCrearCarton = new System.Windows.Forms.Button();
+            this.btnUnirsePartida = new System.Windows.Forms.Button();
+            this.btnReiniciarPartida_Lateral = new System.Windows.Forms.Button();
+            this.btnMenu = new System.Windows.Forms.Button();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.chkdFormaVictoria_Lateral = new System.Windows.Forms.CheckedListBox();
+            this.btnNuevaFormaDeGanar_Lateral = new System.Windows.Forms.Button();
+            this.label1_Lateral = new System.Windows.Forms.Label();
+            this.lblCantidad_Lateral = new System.Windows.Forms.Label();
+            this.nudCantidadCartones_Lateral = new System.Windows.Forms.NumericUpDown();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.panelCarton.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudVelocidad)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picCartaActual)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.pnlConfigLateral.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudCantidadCartones_Lateral)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.SuspendLayout();
-            // 
-            // timerAuto
-            // 
-            this.timerAuto.Tick += new System.EventHandler(this.timerAuto_Tick);
-            // 
-            // picCartaActual
-            // 
-            this.picCartaActual.Location = new System.Drawing.Point(43, 45);
-            this.picCartaActual.Name = "picCartaActual";
-            this.picCartaActual.Size = new System.Drawing.Size(180, 190);
-            this.picCartaActual.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picCartaActual.TabIndex = 0;
-            this.picCartaActual.TabStop = false;
             // 
             // lblContador
             // 
             this.lblContador.AutoSize = true;
-            this.lblContador.BackColor = System.Drawing.Color.Transparent;
+            this.lblContador.BackColor = System.Drawing.Color.Maroon;
             this.lblContador.Font = new System.Drawing.Font("Segoe UI Semibold", 8F, System.Drawing.FontStyle.Bold);
             this.lblContador.ForeColor = System.Drawing.Color.White;
-            this.lblContador.Location = new System.Drawing.Point(78, 240);
+            this.lblContador.Location = new System.Drawing.Point(57, 223);
+            this.lblContador.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblContador.Name = "lblContador";
-            this.lblContador.Size = new System.Drawing.Size(67, 19);
+            this.lblContador.Size = new System.Drawing.Size(55, 13);
             this.lblContador.TabIndex = 1;
             this.lblContador.Text = "Contador";
             // 
             // panelCarton
             // 
-            this.panelCarton.BackColor = System.Drawing.Color.Transparent;
-            this.panelCarton.Location = new System.Drawing.Point(290, 45);
+            this.panelCarton.BackColor = System.Drawing.Color.Tan;
+            this.panelCarton.Controls.Add(this.dateTimePicker1);
+            this.panelCarton.Location = new System.Drawing.Point(219, 57);
+            this.panelCarton.Margin = new System.Windows.Forms.Padding(2);
             this.panelCarton.Name = "panelCarton";
-            this.panelCarton.Size = new System.Drawing.Size(820, 532);
+            this.panelCarton.Size = new System.Drawing.Size(655, 432);
             this.panelCarton.TabIndex = 3;
+            // 
+            // dateTimePicker1
+            // 
+            this.dateTimePicker1.Location = new System.Drawing.Point(385, -25);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
+            this.dateTimePicker1.TabIndex = 29;
             // 
             // btnSacarCarta
             // 
-            this.btnSacarCarta.Location = new System.Drawing.Point(70, 323);
+            this.btnSacarCarta.BackColor = System.Drawing.Color.Tan;
+            this.btnSacarCarta.Location = new System.Drawing.Point(52, 295);
+            this.btnSacarCarta.Margin = new System.Windows.Forms.Padding(2);
             this.btnSacarCarta.Name = "btnSacarCarta";
-            this.btnSacarCarta.Size = new System.Drawing.Size(130, 35);
+            this.btnSacarCarta.Size = new System.Drawing.Size(98, 28);
             this.btnSacarCarta.TabIndex = 4;
             this.btnSacarCarta.Text = "Sacar Carta";
-            this.btnSacarCarta.UseVisualStyleBackColor = true;
+            this.btnSacarCarta.UseVisualStyleBackColor = false;
             this.btnSacarCarta.Click += new System.EventHandler(this.btnSacarCarta_Click);
             // 
             // btnBuenas
             // 
-            this.btnBuenas.Location = new System.Drawing.Point(72, 284);
-            this.btnBuenas.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnBuenas.BackColor = System.Drawing.Color.Orange;
+            this.btnBuenas.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBuenas.ForeColor = System.Drawing.Color.Red;
+            this.btnBuenas.Location = new System.Drawing.Point(52, 243);
+            this.btnBuenas.Margin = new System.Windows.Forms.Padding(2);
             this.btnBuenas.Name = "btnBuenas";
-            this.btnBuenas.Size = new System.Drawing.Size(128, 26);
+            this.btnBuenas.Size = new System.Drawing.Size(98, 45);
             this.btnBuenas.TabIndex = 18;
-            this.btnBuenas.Text = "¡Buenas!";
-            this.btnBuenas.UseVisualStyleBackColor = true;
+            this.btnBuenas.Text = "BUENAS";
+            this.btnBuenas.UseVisualStyleBackColor = false;
             this.btnBuenas.Click += new System.EventHandler(this.btnBuenas_Click);
             // 
             // btnAuto
             // 
-            this.btnAuto.Location = new System.Drawing.Point(70, 421);
+            this.btnAuto.BackColor = System.Drawing.Color.Tan;
+            this.btnAuto.Location = new System.Drawing.Point(52, 363);
+            this.btnAuto.Margin = new System.Windows.Forms.Padding(2);
             this.btnAuto.Name = "btnAuto";
-            this.btnAuto.Size = new System.Drawing.Size(130, 35);
+            this.btnAuto.Size = new System.Drawing.Size(98, 28);
             this.btnAuto.TabIndex = 7;
             this.btnAuto.Text = "Auto: OFF";
-            this.btnAuto.UseVisualStyleBackColor = true;
+            this.btnAuto.UseVisualStyleBackColor = false;
             this.btnAuto.Click += new System.EventHandler(this.btnAuto_Click);
             // 
             // btnReiniciar
             // 
-            this.btnReiniciar.Location = new System.Drawing.Point(70, 376);
+            this.btnReiniciar.BackColor = System.Drawing.Color.Tan;
+            this.btnReiniciar.Location = new System.Drawing.Point(52, 328);
+            this.btnReiniciar.Margin = new System.Windows.Forms.Padding(2);
             this.btnReiniciar.Name = "btnReiniciar";
-            this.btnReiniciar.Size = new System.Drawing.Size(130, 35);
+            this.btnReiniciar.Size = new System.Drawing.Size(98, 28);
             this.btnReiniciar.TabIndex = 6;
             this.btnReiniciar.Text = "Reiniciar";
-            this.btnReiniciar.UseVisualStyleBackColor = true;
+            this.btnReiniciar.UseVisualStyleBackColor = false;
             this.btnReiniciar.Click += new System.EventHandler(this.btnReiniciar_Click);
-            // 
-            // btnMenu
-            // 
-            this.btnMenu.Location = new System.Drawing.Point(70, 466);
-            this.btnMenu.Name = "btnMenu";
-            this.btnMenu.Size = new System.Drawing.Size(130, 35);
-            this.btnMenu.TabIndex = 8;
-            this.btnMenu.Text = "Menú";
-            this.btnMenu.UseVisualStyleBackColor = true;
-            this.btnMenu.Click += new System.EventHandler(this.btnMenu_Click);
             // 
             // lblCartaActual
             // 
@@ -139,81 +143,30 @@
             this.lblCartaActual.BackColor = System.Drawing.Color.Transparent;
             this.lblCartaActual.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCartaActual.ForeColor = System.Drawing.Color.White;
-            this.lblCartaActual.Location = new System.Drawing.Point(80, 14);
+            this.lblCartaActual.Location = new System.Drawing.Point(56, 4);
+            this.lblCartaActual.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblCartaActual.Name = "lblCartaActual";
-            this.lblCartaActual.Size = new System.Drawing.Size(109, 23);
+            this.lblCartaActual.Size = new System.Drawing.Size(91, 19);
             this.lblCartaActual.TabIndex = 7;
             this.lblCartaActual.Text = "Carta Actual";
-            // 
-            // grpModoVictoria
-            // 
-            this.grpModoVictoria.Controls.Add(this.chkHorizontal);
-            this.grpModoVictoria.Controls.Add(this.chkVertical);
-            this.grpModoVictoria.Controls.Add(this.chkDiagonal);
-            this.grpModoVictoria.Controls.Add(this.chkLleno);
-            this.grpModoVictoria.Location = new System.Drawing.Point(1150, 679);
-            this.grpModoVictoria.Name = "grpModoVictoria";
-            this.grpModoVictoria.Size = new System.Drawing.Size(10, 10);
-            this.grpModoVictoria.TabIndex = 11;
-            this.grpModoVictoria.TabStop = false;
-            this.grpModoVictoria.Text = "Modo de victoria";
-            this.grpModoVictoria.Visible = false;
-            // 
-            // chkHorizontal
-            // 
-            this.chkHorizontal.AutoSize = true;
-            this.chkHorizontal.Location = new System.Drawing.Point(10, 20);
-            this.chkHorizontal.Name = "chkHorizontal";
-            this.chkHorizontal.Size = new System.Drawing.Size(122, 20);
-            this.chkHorizontal.TabIndex = 0;
-            this.chkHorizontal.Text = "Línea horizontal";
-            this.chkHorizontal.UseVisualStyleBackColor = true;
-            // 
-            // chkVertical
-            // 
-            this.chkVertical.AutoSize = true;
-            this.chkVertical.Location = new System.Drawing.Point(10, 45);
-            this.chkVertical.Name = "chkVertical";
-            this.chkVertical.Size = new System.Drawing.Size(108, 20);
-            this.chkVertical.TabIndex = 1;
-            this.chkVertical.Text = "Línea vertical";
-            this.chkVertical.UseVisualStyleBackColor = true;
-            // 
-            // chkDiagonal
-            // 
-            this.chkDiagonal.AutoSize = true;
-            this.chkDiagonal.Location = new System.Drawing.Point(10, 70);
-            this.chkDiagonal.Name = "chkDiagonal";
-            this.chkDiagonal.Size = new System.Drawing.Size(84, 20);
-            this.chkDiagonal.TabIndex = 2;
-            this.chkDiagonal.Text = "Diagonal";
-            this.chkDiagonal.UseVisualStyleBackColor = true;
-            // 
-            // chkLleno
-            // 
-            this.chkLleno.AutoSize = true;
-            this.chkLleno.Location = new System.Drawing.Point(10, 95);
-            this.chkLleno.Name = "chkLleno";
-            this.chkLleno.Size = new System.Drawing.Size(100, 20);
-            this.chkLleno.TabIndex = 3;
-            this.chkLleno.Text = "Cartón lleno";
-            this.chkLleno.UseVisualStyleBackColor = true;
             // 
             // lblVelocidad
             // 
             this.lblVelocidad.AutoSize = true;
-            this.lblVelocidad.BackColor = System.Drawing.Color.Transparent;
+            this.lblVelocidad.BackColor = System.Drawing.Color.DarkRed;
             this.lblVelocidad.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.lblVelocidad.ForeColor = System.Drawing.Color.White;
-            this.lblVelocidad.Location = new System.Drawing.Point(76, 523);
+            this.lblVelocidad.Location = new System.Drawing.Point(57, 481);
+            this.lblVelocidad.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblVelocidad.Name = "lblVelocidad";
-            this.lblVelocidad.Size = new System.Drawing.Size(120, 20);
+            this.lblVelocidad.Size = new System.Drawing.Size(93, 15);
             this.lblVelocidad.TabIndex = 4;
             this.lblVelocidad.Text = "Velocidad (seg):";
             // 
             // nudVelocidad
             // 
-            this.nudVelocidad.Location = new System.Drawing.Point(80, 549);
+            this.nudVelocidad.Location = new System.Drawing.Point(60, 499);
+            this.nudVelocidad.Margin = new System.Windows.Forms.Padding(2);
             this.nudVelocidad.Maximum = new decimal(new int[] {
             10,
             0,
@@ -225,7 +178,7 @@
             0,
             0});
             this.nudVelocidad.Name = "nudVelocidad";
-            this.nudVelocidad.Size = new System.Drawing.Size(107, 22);
+            this.nudVelocidad.Size = new System.Drawing.Size(80, 20);
             this.nudVelocidad.TabIndex = 5;
             this.nudVelocidad.Value = new decimal(new int[] {
             3,
@@ -234,150 +187,311 @@
             0});
             this.nudVelocidad.ValueChanged += new System.EventHandler(this.nudVelocidad_ValueChanged);
             // 
-            // lblEstadoRed
-            // 
-            this.lblEstadoRed.AutoSize = true;
-            this.lblEstadoRed.BackColor = System.Drawing.Color.Transparent;
-            this.lblEstadoRed.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.lblEstadoRed.ForeColor = System.Drawing.Color.White;
-            this.lblEstadoRed.Location = new System.Drawing.Point(51, 754);
-            this.lblEstadoRed.Name = "lblEstadoRed";
-            this.lblEstadoRed.Size = new System.Drawing.Size(172, 20);
-            this.lblEstadoRed.TabIndex = 9;
-            this.lblEstadoRed.Text = "Red Local: Sin conexión";
-            // 
-            // btnCrearPartida
-            // 
-            this.btnCrearPartida.Location = new System.Drawing.Point(70, 598);
-            this.btnCrearPartida.Name = "btnCrearPartida";
-            this.btnCrearPartida.Size = new System.Drawing.Size(130, 35);
-            this.btnCrearPartida.TabIndex = 16;
-            this.btnCrearPartida.Text = "Crear Partida";
-            this.btnCrearPartida.UseVisualStyleBackColor = true;
-            this.btnCrearPartida.Click += new System.EventHandler(this.btnCrearPartida_Click);
-            // 
-            // btnUnirsePartida
-            // 
-            this.btnUnirsePartida.Location = new System.Drawing.Point(70, 648);
-            this.btnUnirsePartida.Name = "btnUnirsePartida";
-            this.btnUnirsePartida.Size = new System.Drawing.Size(130, 35);
-            this.btnUnirsePartida.TabIndex = 17;
-            this.btnUnirsePartida.Text = "Unirse";
-            this.btnUnirsePartida.UseVisualStyleBackColor = true;
-            this.btnUnirsePartida.Click += new System.EventHandler(this.btnUnirsePartida_Click);
-            // 
-            // btnDesconectarRed
-            // 
-            this.btnDesconectarRed.Enabled = false;
-            this.btnDesconectarRed.Location = new System.Drawing.Point(56, 701);
-            this.btnDesconectarRed.Name = "btnDesconectarRed";
-            this.btnDesconectarRed.Size = new System.Drawing.Size(160, 35);
-            this.btnDesconectarRed.TabIndex = 18;
-            this.btnDesconectarRed.Text = "Desconectar Red";
-            this.btnDesconectarRed.UseVisualStyleBackColor = true;
-            this.btnDesconectarRed.Click += new System.EventHandler(this.btnDesconectarRed_Click);
-            // 
-            // lblTituloHistorial
-            // 
-            this.lblTituloHistorial.AutoSize = true;
-            this.lblTituloHistorial.BackColor = System.Drawing.Color.Transparent;
-            this.lblTituloHistorial.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
-            this.lblTituloHistorial.ForeColor = System.Drawing.Color.White;
-            this.lblTituloHistorial.Location = new System.Drawing.Point(290, 639);
-            this.lblTituloHistorial.Name = "lblTituloHistorial";
-            this.lblTituloHistorial.Size = new System.Drawing.Size(87, 25);
-            this.lblTituloHistorial.TabIndex = 19;
-            this.lblTituloHistorial.Text = "Historial";
-            // 
             // lstHistorial
             // 
             this.lstHistorial.FormattingEnabled = true;
-            this.lstHistorial.ItemHeight = 16;
-            this.lstHistorial.Location = new System.Drawing.Point(290, 674);
-            this.lstHistorial.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.lstHistorial.Location = new System.Drawing.Point(13, 401);
+            this.lstHistorial.Margin = new System.Windows.Forms.Padding(2);
             this.lstHistorial.Name = "lstHistorial";
-            this.lstHistorial.Size = new System.Drawing.Size(550, 100);
+            this.lstHistorial.Size = new System.Drawing.Size(175, 69);
             this.lstHistorial.TabIndex = 20;
+            // 
+            // picCartaActual
+            // 
+            this.picCartaActual.Image = global::LoteriaMexicana.Properties.Resources.FondoTablas;
+            this.picCartaActual.Location = new System.Drawing.Point(24, 29);
+            this.picCartaActual.Margin = new System.Windows.Forms.Padding(2);
+            this.picCartaActual.Name = "picCartaActual";
+            this.picCartaActual.Size = new System.Drawing.Size(155, 185);
+            this.picCartaActual.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picCartaActual.TabIndex = 0;
+            this.picCartaActual.TabStop = false;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::LoteriaMexicana.Properties.Resources.Fondo_Tabla;
+            this.pictureBox1.Location = new System.Drawing.Point(-2, 0);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(208, 554);
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            // 
+            // pnlConfigLateral
+            // 
+            this.pnlConfigLateral.BackColor = System.Drawing.SystemColors.Control;
+            this.pnlConfigLateral.BackgroundImage = global::LoteriaMexicana.Properties.Resources.Fondo_Tabla;
+            this.pnlConfigLateral.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlConfigLateral.Controls.Add(this.label1_Lateral);
+            this.pnlConfigLateral.Controls.Add(this.lblCantidad_Lateral);
+            this.pnlConfigLateral.Controls.Add(this.nudCantidadCartones_Lateral);
+            this.pnlConfigLateral.Controls.Add(this.lstChat);
+            this.pnlConfigLateral.Controls.Add(this.btnCrearPartida);
+            this.pnlConfigLateral.Controls.Add(this.btnEnviarChat);
+            this.pnlConfigLateral.Controls.Add(this.chkdFormaVictoria_Lateral);
+            this.pnlConfigLateral.Controls.Add(this.btnNuevaFormaDeGanar_Lateral);
+            this.pnlConfigLateral.Controls.Add(this.btnGuardarCarton);
+            this.pnlConfigLateral.Controls.Add(this.txtMensajeChat);
+            this.pnlConfigLateral.Controls.Add(this.lblTitulo_Lateral);
+            this.pnlConfigLateral.Controls.Add(this.btnCargarCarton);
+            this.pnlConfigLateral.Controls.Add(this.btnDesconectarRed);
+            this.pnlConfigLateral.Controls.Add(this.btnCrearCarton);
+            this.pnlConfigLateral.Controls.Add(this.btnUnirsePartida);
+            this.pnlConfigLateral.Controls.Add(this.btnReiniciarPartida_Lateral);
+            this.pnlConfigLateral.Controls.Add(this.btnMenu);
+            this.pnlConfigLateral.Controls.Add(this.pictureBox2);
+            this.pnlConfigLateral.Controls.Add(this.pictureBox3);
+            this.pnlConfigLateral.Dock = System.Windows.Forms.DockStyle.Right;
+            this.pnlConfigLateral.Location = new System.Drawing.Point(886, 0);
+            this.pnlConfigLateral.Margin = new System.Windows.Forms.Padding(2);
+            this.pnlConfigLateral.Name = "pnlConfigLateral";
+            this.pnlConfigLateral.Size = new System.Drawing.Size(325, 535);
+            this.pnlConfigLateral.TabIndex = 27;
             // 
             // lstChat
             // 
             this.lstChat.FormattingEnabled = true;
-            this.lstChat.ItemHeight = 16;
-            this.lstChat.Location = new System.Drawing.Point(900, 674);
-            this.lstChat.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.lstChat.Location = new System.Drawing.Point(15, 405);
+            this.lstChat.Margin = new System.Windows.Forms.Padding(2);
             this.lstChat.Name = "lstChat";
-            this.lstChat.Size = new System.Drawing.Size(430, 100);
+            this.lstChat.Size = new System.Drawing.Size(296, 69);
             this.lstChat.TabIndex = 21;
             // 
-            // txtMensajeChat
+            // btnCrearPartida
             // 
-            this.txtMensajeChat.Location = new System.Drawing.Point(900, 784);
-            this.txtMensajeChat.Name = "txtMensajeChat";
-            this.txtMensajeChat.Size = new System.Drawing.Size(267, 22);
-            this.txtMensajeChat.TabIndex = 16;
+            this.btnCrearPartida.BackColor = System.Drawing.Color.Tan;
+            this.btnCrearPartida.Location = new System.Drawing.Point(52, 309);
+            this.btnCrearPartida.Margin = new System.Windows.Forms.Padding(2);
+            this.btnCrearPartida.Name = "btnCrearPartida";
+            this.btnCrearPartida.Size = new System.Drawing.Size(110, 32);
+            this.btnCrearPartida.TabIndex = 16;
+            this.btnCrearPartida.Text = "Crear Partida";
+            this.btnCrearPartida.UseVisualStyleBackColor = false;
+            this.btnCrearPartida.Click += new System.EventHandler(this.btnCrearPartida_Click);
             // 
             // btnEnviarChat
             // 
-            this.btnEnviarChat.Location = new System.Drawing.Point(1240, 779);
+            this.btnEnviarChat.Location = new System.Drawing.Point(15, 483);
+            this.btnEnviarChat.Margin = new System.Windows.Forms.Padding(2);
             this.btnEnviarChat.Name = "btnEnviarChat";
-            this.btnEnviarChat.Size = new System.Drawing.Size(90, 35);
+            this.btnEnviarChat.Size = new System.Drawing.Size(68, 28);
             this.btnEnviarChat.TabIndex = 23;
             this.btnEnviarChat.Text = "Enviar";
             this.btnEnviarChat.UseVisualStyleBackColor = true;
             this.btnEnviarChat.Click += new System.EventHandler(this.btnEnviarChat_Click);
             // 
-            // btnCrearCarton
-            // 
-            this.btnCrearCarton.Location = new System.Drawing.Point(1130, 261);
-            this.btnCrearCarton.Name = "btnCrearCarton";
-            this.btnCrearCarton.Size = new System.Drawing.Size(130, 34);
-            this.btnCrearCarton.TabIndex = 24;
-            this.btnCrearCarton.Text = "Crear cartón";
-            this.btnCrearCarton.UseVisualStyleBackColor = true;
-            this.btnCrearCarton.Click += new System.EventHandler(this.btnCrearCarton_Click_1);
-            // 
-            // btnCargarCarton
-            // 
-            this.btnCargarCarton.Location = new System.Drawing.Point(1130, 301);
-            this.btnCargarCarton.Name = "btnCargarCarton";
-            this.btnCargarCarton.Size = new System.Drawing.Size(130, 36);
-            this.btnCargarCarton.TabIndex = 25;
-            this.btnCargarCarton.Text = "Cargar cartón";
-            this.btnCargarCarton.UseVisualStyleBackColor = true;
-            this.btnCargarCarton.Click += new System.EventHandler(this.btnCargarCarton_Click_1);
-            // 
             // btnGuardarCarton
             // 
-            this.btnGuardarCarton.Location = new System.Drawing.Point(1130, 343);
+            this.btnGuardarCarton.Location = new System.Drawing.Point(52, 275);
+            this.btnGuardarCarton.Margin = new System.Windows.Forms.Padding(2);
             this.btnGuardarCarton.Name = "btnGuardarCarton";
-            this.btnGuardarCarton.Size = new System.Drawing.Size(130, 36);
+            this.btnGuardarCarton.Size = new System.Drawing.Size(108, 29);
             this.btnGuardarCarton.TabIndex = 26;
             this.btnGuardarCarton.Text = "Guardar cartón";
             this.btnGuardarCarton.UseVisualStyleBackColor = true;
             this.btnGuardarCarton.Click += new System.EventHandler(this.btnGuardarCarton_Click_1);
             // 
+            // txtMensajeChat
+            // 
+            this.txtMensajeChat.Location = new System.Drawing.Point(87, 488);
+            this.txtMensajeChat.Margin = new System.Windows.Forms.Padding(2);
+            this.txtMensajeChat.Name = "txtMensajeChat";
+            this.txtMensajeChat.Size = new System.Drawing.Size(224, 20);
+            this.txtMensajeChat.TabIndex = 16;
+            this.txtMensajeChat.TextChanged += new System.EventHandler(this.txtMensajeChat_TextChanged);
+            // 
+            // lblTitulo_Lateral
+            // 
+            this.lblTitulo_Lateral.AutoSize = true;
+            this.lblTitulo_Lateral.BackColor = System.Drawing.Color.Maroon;
+            this.lblTitulo_Lateral.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.lblTitulo_Lateral.Location = new System.Drawing.Point(103, 11);
+            this.lblTitulo_Lateral.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblTitulo_Lateral.Name = "lblTitulo_Lateral";
+            this.lblTitulo_Lateral.Size = new System.Drawing.Size(119, 21);
+            this.lblTitulo_Lateral.TabIndex = 0;
+            this.lblTitulo_Lateral.Text = "Configuración";
+            // 
+            // btnCargarCarton
+            // 
+            this.btnCargarCarton.Location = new System.Drawing.Point(171, 275);
+            this.btnCargarCarton.Margin = new System.Windows.Forms.Padding(2);
+            this.btnCargarCarton.Name = "btnCargarCarton";
+            this.btnCargarCarton.Size = new System.Drawing.Size(108, 29);
+            this.btnCargarCarton.TabIndex = 25;
+            this.btnCargarCarton.Text = "Cargar cartón";
+            this.btnCargarCarton.UseVisualStyleBackColor = true;
+            this.btnCargarCarton.Click += new System.EventHandler(this.btnCargarCarton_Click_1);
+            // 
+            // btnDesconectarRed
+            // 
+            this.btnDesconectarRed.BackColor = System.Drawing.Color.Tan;
+            this.btnDesconectarRed.Enabled = false;
+            this.btnDesconectarRed.Location = new System.Drawing.Point(160, 373);
+            this.btnDesconectarRed.Margin = new System.Windows.Forms.Padding(2);
+            this.btnDesconectarRed.Name = "btnDesconectarRed";
+            this.btnDesconectarRed.Size = new System.Drawing.Size(120, 28);
+            this.btnDesconectarRed.TabIndex = 18;
+            this.btnDesconectarRed.Text = "Desconectar Red";
+            this.btnDesconectarRed.UseVisualStyleBackColor = false;
+            this.btnDesconectarRed.Click += new System.EventHandler(this.btnDesconectarRed_Click);
+            // 
+            // btnCrearCarton
+            // 
+            this.btnCrearCarton.Location = new System.Drawing.Point(171, 242);
+            this.btnCrearCarton.Margin = new System.Windows.Forms.Padding(2);
+            this.btnCrearCarton.Name = "btnCrearCarton";
+            this.btnCrearCarton.Size = new System.Drawing.Size(108, 28);
+            this.btnCrearCarton.TabIndex = 24;
+            this.btnCrearCarton.Text = "Crear cartón";
+            this.btnCrearCarton.UseVisualStyleBackColor = true;
+            this.btnCrearCarton.Click += new System.EventHandler(this.btnCrearCarton_Click_1);
+            // 
+            // btnUnirsePartida
+            // 
+            this.btnUnirsePartida.BackColor = System.Drawing.Color.Tan;
+            this.btnUnirsePartida.Location = new System.Drawing.Point(56, 373);
+            this.btnUnirsePartida.Margin = new System.Windows.Forms.Padding(2);
+            this.btnUnirsePartida.Name = "btnUnirsePartida";
+            this.btnUnirsePartida.Size = new System.Drawing.Size(98, 28);
+            this.btnUnirsePartida.TabIndex = 17;
+            this.btnUnirsePartida.Text = "Unirse";
+            this.btnUnirsePartida.UseVisualStyleBackColor = false;
+            this.btnUnirsePartida.Click += new System.EventHandler(this.btnUnirsePartida_Click);
+            // 
+            // btnReiniciarPartida_Lateral
+            // 
+            this.btnReiniciarPartida_Lateral.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.btnReiniciarPartida_Lateral.Location = new System.Drawing.Point(171, 308);
+            this.btnReiniciarPartida_Lateral.Margin = new System.Windows.Forms.Padding(2);
+            this.btnReiniciarPartida_Lateral.Name = "btnReiniciarPartida_Lateral";
+            this.btnReiniciarPartida_Lateral.Size = new System.Drawing.Size(108, 32);
+            this.btnReiniciarPartida_Lateral.TabIndex = 4;
+            this.btnReiniciarPartida_Lateral.Text = "Reiniciar partida";
+            this.btnReiniciarPartida_Lateral.UseVisualStyleBackColor = false;
+            this.btnReiniciarPartida_Lateral.Click += new System.EventHandler(this.btnIniciarPartida_Lateral_Click);
+            // 
+            // btnMenu
+            // 
+            this.btnMenu.Location = new System.Drawing.Point(52, 241);
+            this.btnMenu.Margin = new System.Windows.Forms.Padding(2);
+            this.btnMenu.Name = "btnMenu";
+            this.btnMenu.Size = new System.Drawing.Size(108, 28);
+            this.btnMenu.TabIndex = 8;
+            this.btnMenu.Text = "Menú";
+            this.btnMenu.UseVisualStyleBackColor = true;
+            this.btnMenu.Click += new System.EventHandler(this.btnMenu_Click);
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = global::LoteriaMexicana.Properties.Resources.FondoTablas;
+            this.pictureBox2.Location = new System.Drawing.Point(34, 227);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(262, 129);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox2.TabIndex = 28;
+            this.pictureBox2.TabStop = false;
+            // 
+            // chkdFormaVictoria_Lateral
+            // 
+            this.chkdFormaVictoria_Lateral.BackColor = System.Drawing.Color.SandyBrown;
+            this.chkdFormaVictoria_Lateral.FormattingEnabled = true;
+            this.chkdFormaVictoria_Lateral.Items.AddRange(new object[] {
+            "Línea horizontal",
+            "Línea vertical",
+            "Diagonal",
+            "Cartón lleno"});
+            this.chkdFormaVictoria_Lateral.Location = new System.Drawing.Point(34, 83);
+            this.chkdFormaVictoria_Lateral.Margin = new System.Windows.Forms.Padding(2);
+            this.chkdFormaVictoria_Lateral.Name = "chkdFormaVictoria_Lateral";
+            this.chkdFormaVictoria_Lateral.Size = new System.Drawing.Size(128, 64);
+            this.chkdFormaVictoria_Lateral.TabIndex = 6;
+            // 
+            // btnNuevaFormaDeGanar_Lateral
+            // 
+            this.btnNuevaFormaDeGanar_Lateral.BackColor = System.Drawing.Color.Chocolate;
+            this.btnNuevaFormaDeGanar_Lateral.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.btnNuevaFormaDeGanar_Lateral.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.btnNuevaFormaDeGanar_Lateral.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.btnNuevaFormaDeGanar_Lateral.Font = new System.Drawing.Font("Segoe UI Semibold", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNuevaFormaDeGanar_Lateral.Location = new System.Drawing.Point(69, 155);
+            this.btnNuevaFormaDeGanar_Lateral.Margin = new System.Windows.Forms.Padding(2);
+            this.btnNuevaFormaDeGanar_Lateral.Name = "btnNuevaFormaDeGanar_Lateral";
+            this.btnNuevaFormaDeGanar_Lateral.Size = new System.Drawing.Size(195, 37);
+            this.btnNuevaFormaDeGanar_Lateral.TabIndex = 7;
+            this.btnNuevaFormaDeGanar_Lateral.Text = "Crear nueva forma";
+            this.btnNuevaFormaDeGanar_Lateral.UseVisualStyleBackColor = false;
+            this.btnNuevaFormaDeGanar_Lateral.Click += new System.EventHandler(this.btnNuevaFormaDeGanar_Lateral_Click);
+            // 
+            // label1_Lateral
+            // 
+            this.label1_Lateral.AutoSize = true;
+            this.label1_Lateral.BackColor = System.Drawing.Color.DarkRed;
+            this.label1_Lateral.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.label1_Lateral.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label1_Lateral.Location = new System.Drawing.Point(41, 62);
+            this.label1_Lateral.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1_Lateral.Name = "label1_Lateral";
+            this.label1_Lateral.Size = new System.Drawing.Size(108, 15);
+            this.label1_Lateral.TabIndex = 9;
+            this.label1_Lateral.Text = "Forma de Victoria:";
+            // 
+            // lblCantidad_Lateral
+            // 
+            this.lblCantidad_Lateral.AutoSize = true;
+            this.lblCantidad_Lateral.BackColor = System.Drawing.Color.DarkRed;
+            this.lblCantidad_Lateral.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.lblCantidad_Lateral.ForeColor = System.Drawing.Color.White;
+            this.lblCantidad_Lateral.Location = new System.Drawing.Point(172, 63);
+            this.lblCantidad_Lateral.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblCantidad_Lateral.Name = "lblCantidad_Lateral";
+            this.lblCantidad_Lateral.Size = new System.Drawing.Size(124, 15);
+            this.lblCantidad_Lateral.TabIndex = 1;
+            this.lblCantidad_Lateral.Text = "Número de cartones:";
+            // 
+            // nudCantidadCartones_Lateral
+            // 
+            this.nudCantidadCartones_Lateral.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.nudCantidadCartones_Lateral.Location = new System.Drawing.Point(191, 101);
+            this.nudCantidadCartones_Lateral.Margin = new System.Windows.Forms.Padding(2);
+            this.nudCantidadCartones_Lateral.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.nudCantidadCartones_Lateral.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nudCantidadCartones_Lateral.Name = "nudCantidadCartones_Lateral";
+            this.nudCantidadCartones_Lateral.Size = new System.Drawing.Size(88, 25);
+            this.nudCantidadCartones_Lateral.TabIndex = 2;
+            this.nudCantidadCartones_Lateral.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Image = global::LoteriaMexicana.Properties.Resources.FondoTablas;
+            this.pictureBox3.Location = new System.Drawing.Point(15, 43);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(305, 165);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox3.TabIndex = 29;
+            this.pictureBox3.TabStop = false;
+            // 
             // FrmJuego
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::LoteriaMexicana.Properties.Resources.juego;
-            this.ClientSize = new System.Drawing.Size(1396, 830);
-            this.Controls.Add(this.btnGuardarCarton);
-            this.Controls.Add(this.btnCargarCarton);
-            this.Controls.Add(this.btnCrearCarton);
-            this.Controls.Add(this.btnEnviarChat);
-            this.Controls.Add(this.txtMensajeChat);
-            this.Controls.Add(this.lstChat);
+            this.BackColor = System.Drawing.Color.Peru;
+            this.BackgroundImage = global::LoteriaMexicana.Properties.Resources.madera1;
+            this.ClientSize = new System.Drawing.Size(1211, 535);
             this.Controls.Add(this.lstHistorial);
-            this.Controls.Add(this.lblTituloHistorial);
-            this.Controls.Add(this.btnDesconectarRed);
-            this.Controls.Add(this.btnUnirsePartida);
-            this.Controls.Add(this.btnCrearPartida);
-            this.Controls.Add(this.lblEstadoRed);
-            this.Controls.Add(this.grpModoVictoria);
             this.Controls.Add(this.nudVelocidad);
             this.Controls.Add(this.lblVelocidad);
-            this.Controls.Add(this.btnMenu);
             this.Controls.Add(this.btnReiniciar);
             this.Controls.Add(this.btnAuto);
             this.Controls.Add(this.btnBuenas);
@@ -386,20 +500,26 @@
             this.Controls.Add(this.lblContador);
             this.Controls.Add(this.lblCartaActual);
             this.Controls.Add(this.picCartaActual);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.pnlConfigLateral);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "FrmJuego";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Lotería Mexicana - Juego";
             this.Load += new System.EventHandler(this.FrmJuego_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.picCartaActual)).EndInit();
-            this.grpModoVictoria.ResumeLayout(false);
-            this.grpModoVictoria.PerformLayout();
+            this.panelCarton.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.nudVelocidad)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picCartaActual)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.pnlConfigLateral.ResumeLayout(false);
+            this.pnlConfigLateral.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudCantidadCartones_Lateral)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
-
-        private System.Windows.Forms.Timer timerAuto;
         private System.Windows.Forms.PictureBox picCartaActual;
         private System.Windows.Forms.Label lblContador;
         private System.Windows.Forms.Panel panelCarton;
@@ -410,28 +530,31 @@
         private System.Windows.Forms.Button btnMenu;
         private System.Windows.Forms.Label lblCartaActual;
 
-        private System.Windows.Forms.GroupBox grpModoVictoria;
-        private System.Windows.Forms.CheckBox chkHorizontal;
-        private System.Windows.Forms.CheckBox chkVertical;
-        private System.Windows.Forms.CheckBox chkDiagonal;
-        private System.Windows.Forms.CheckBox chkLleno;
-
         private System.Windows.Forms.Label lblVelocidad;
         private System.Windows.Forms.NumericUpDown nudVelocidad;
-
-        private System.Windows.Forms.Label lblEstadoRed;
         private System.Windows.Forms.Button btnCrearPartida;
         private System.Windows.Forms.Button btnUnirsePartida;
         private System.Windows.Forms.Button btnDesconectarRed;
-
-        private System.Windows.Forms.Label lblTituloHistorial;
         private System.Windows.Forms.ListBox lstHistorial;
 
         private System.Windows.Forms.ListBox lstChat;
         private System.Windows.Forms.TextBox txtMensajeChat;
         private System.Windows.Forms.Button btnEnviarChat;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button btnReiniciarPartida_Lateral;
         private System.Windows.Forms.Button btnCrearCarton;
         private System.Windows.Forms.Button btnCargarCarton;
+        private System.Windows.Forms.Label lblTitulo_Lateral;
         private System.Windows.Forms.Button btnGuardarCarton;
+        private System.Windows.Forms.Panel pnlConfigLateral;
+        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.Label label1_Lateral;
+        private System.Windows.Forms.Label lblCantidad_Lateral;
+        private System.Windows.Forms.NumericUpDown nudCantidadCartones_Lateral;
+        private System.Windows.Forms.CheckedListBox chkdFormaVictoria_Lateral;
+        private System.Windows.Forms.Button btnNuevaFormaDeGanar_Lateral;
+        private System.Windows.Forms.PictureBox pictureBox3;
+        // --- FIN AÑADIDO ---
     }
 }

@@ -13,17 +13,10 @@ namespace LoteriaMexicana
 
         private void btnJugar_Click(object sender, EventArgs e)
         {
-            FrmConfiguracionPartida frmConfig = new FrmConfiguracionPartida();
-
-            if (frmConfig.ShowDialog() == DialogResult.OK)
-            {
-                FrmJuego frmJuego = new FrmJuego(
-                    frmConfig.CantidadCartones,
-                    frmConfig.OpcionesVictoria);
-
-                frmJuego.Show();
-                this.Hide();
-            }
+            // Abrir FrmJuego directamente (1 cartón y opciones por defecto)
+            FrmJuego frmJuego = new FrmJuego(1, null);
+            frmJuego.Show();
+            this.Hide();
         }
 
         private void btnInstrucciones_Click(object sender, EventArgs e)

@@ -23,6 +23,9 @@ namespace LoteriaMexicana.Forms
         private int _cantidadCartones = 1;
         private OpcionesVictoria _opcionesVictoria;
         private string _nombreGanadorActual = "";
+        // --- AÑADIDO: panel lateral config ---
+        private bool[,] _patronVictoriaPersonalizado_Lateral;
+        // --- FIN AÑADIDO ---
 
         private Button btnCartonAnterior;
         private Button btnCartonSiguiente;
@@ -33,6 +36,11 @@ namespace LoteriaMexicana.Forms
 
         private PictureBox[,] _picsCarton =
             new PictureBox[CartonJugador.FILAS, CartonJugador.COLUMNAS];
+        private List<PictureBox[,]> _picsCartones =
+            new List<PictureBox[,]>();
+        private Timer timerAuto;
+        private Label lblEstadoRed;
+        private bool _ajustandoLayout = false;
 
         private Image _imagenFicha;
         private WindowsMediaPlayer _playerCarta;
@@ -51,6 +59,11 @@ namespace LoteriaMexicana.Forms
         public FrmJuego(int cantidadCartones, OpcionesVictoria opcionesVictoria)
         {
             InitializeComponent();
+            InicializarControlesFaltantes();
+            // --- AÑADIDO: panel lateral config ---
+            ConfigurarValoresIniciales_Lateral();
+            CargarPatrones_Lateral();
+            // --- FIN AÑADIDO ---
 
             _cantidadCartones = cantidadCartones;
             _opcionesVictoria = opcionesVictoria ?? new OpcionesVictoria
@@ -60,14 +73,112 @@ namespace LoteriaMexicana.Forms
                 Diagonal = true,
                 Lleno = true
             };
+            // --- AÑADIDO: panel lateral config ---
+            SincronizarOpcionesVictoria_Lateral();
+            // --- FIN AÑADIDO ---
 
             timerAuto.Interval = 3000;
 
             InicializarOpciones();
             CrearControlesCartones();
             InicializarJuego();
+            AjustarLayoutPantallaGrande();
 
             _jugando = true;
+        }
+
+        public FrmJuego() : this(1, null)
+        {
+        }
+
+        private void InicializarControlesFaltantes()
+        {
+            if (components == null)
+                components = new System.ComponentModel.Container();
+
+            if (timerAuto == null)
+            {
+                timerAuto = new Timer(components);
+                timerAuto.Tick += timerAuto_Tick;
+            }
+
+            if (lblEstadoRed == null)
+            {
+                lblEstadoRed = new Label();
+                lblEstadoRed.AutoSize = true;
+                lblEstadoRed.BackColor = Color.DarkRed;
+                lblEstadoRed.ForeColor = Color.White;
+                lblEstadoRed.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
+                lblEstadoRed.Location = new Point(52, 345);
+                lblEstadoRed.Text = "Red Local: Sin conexión";
+
+                if (pnlConfigLateral != null)
+                {
+                    pnlConfigLateral.Controls.Add(lblEstadoRed);
+                    lblEstadoRed.BringToFront();
+                }
+                else
+                {
+                    Controls.Add(lblEstadoRed);
+                }
+            }
+
+            lstHistorial.DrawMode = DrawMode.OwnerDrawFixed;
+            lstHistorial.ItemHeight = 58;
+            lstHistorial.DrawItem -= lstHistorial_DrawItem;
+            lstHistorial.DrawItem += lstHistorial_DrawItem;
+
+            panelCarton.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            pnlConfigLateral.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            Resize -= FrmJuego_Resize;
+            Resize += FrmJuego_Resize;
+        }
+
+        private void FrmJuego_Resize(object sender, EventArgs e)
+        {
+            AjustarLayoutPantallaGrande();
+        }
+
+        private void AjustarLayoutPantallaGrande()
+        {
+            if (_ajustandoLayout || panelCarton == null || pnlConfigLateral == null)
+                return;
+
+            _ajustandoLayout = true;
+
+            int margen = 12;
+            int izquierda = pictureBox1 != null ? pictureBox1.Right + margen : 219;
+            int derecha = pnlConfigLateral.Left - margen;
+            int arriba = Math.Max(24, panelCarton.Top);
+            int abajo = ClientSize.Height - margen;
+
+            if (pictureBox1 != null)
+                pictureBox1.Height = ClientSize.Height;
+
+            if (derecha > izquierda + 100 && abajo > arriba + 100)
+            {
+                panelCarton.Location = new Point(izquierda, arriba);
+                panelCarton.Size = new Size(derecha - izquierda, abajo - arriba - 40);
+
+                if (btnCartonAnterior != null)
+                {
+                    int yNavegacion = panelCarton.Bottom + 8;
+                    btnCartonAnterior.Location = new Point(panelCarton.Left, yNavegacion);
+                    btnCartonSiguiente.Location = new Point(panelCarton.Left + panelCarton.Width - btnCartonSiguiente.Width, yNavegacion);
+                    lblCartonActual.Location = new Point(
+                        panelCarton.Left + (panelCarton.Width - lblCartonActual.Width) / 2,
+                        yNavegacion + 5);
+                }
+
+                if (_cartonesJugador != null && _cartonesJugador.Count > 0)
+                {
+                    DibujarTodosLosCartones();
+                    ActualizarGridCarton();
+                }
+            }
+
+            _ajustandoLayout = false;
         }
 
         private void InicializarOpciones()
@@ -75,12 +186,59 @@ namespace LoteriaMexicana.Forms
             nudVelocidad.Minimum = 1;
             nudVelocidad.Maximum = 10;
             nudVelocidad.Value = 3;
-
-            if (chkHorizontal != null) chkHorizontal.Checked = _opcionesVictoria.Horizontal;
-            if (chkVertical != null) chkVertical.Checked = _opcionesVictoria.Vertical;
-            if (chkDiagonal != null) chkDiagonal.Checked = _opcionesVictoria.Diagonal;
-            if (chkLleno != null) chkLleno.Checked = _opcionesVictoria.Lleno;
         }
+
+        // --- AÑADIDO: panel lateral config ---
+        private void ConfigurarValoresIniciales_Lateral()
+        {
+            nudCantidadCartones_Lateral.Minimum = 1;
+            nudCantidadCartones_Lateral.Maximum = int.MaxValue;
+            nudCantidadCartones_Lateral.Value = 1;
+        }
+
+        private void SincronizarOpcionesVictoria_Lateral()
+        {
+            if (nudCantidadCartones_Lateral != null)
+                nudCantidadCartones_Lateral.Value = _cantidadCartones;
+
+            if (chkdFormaVictoria_Lateral == null)
+                return;
+
+            for (int i = 0; i < chkdFormaVictoria_Lateral.Items.Count; i++)
+                chkdFormaVictoria_Lateral.SetItemChecked(i, false);
+
+            MarcarFormaVictoria_Lateral("Línea horizontal", _opcionesVictoria.Horizontal);
+            MarcarFormaVictoria_Lateral("Línea vertical", _opcionesVictoria.Vertical);
+            MarcarFormaVictoria_Lateral("Diagonal", _opcionesVictoria.Diagonal);
+            MarcarFormaVictoria_Lateral("Cartón lleno", _opcionesVictoria.Lleno);
+        }
+
+        private void MarcarFormaVictoria_Lateral(string texto, bool marcado)
+        {
+            int indice = chkdFormaVictoria_Lateral.Items.IndexOf(texto);
+
+            if (indice >= 0)
+                chkdFormaVictoria_Lateral.SetItemChecked(indice, marcado);
+        }
+
+        private bool[,] CopiarPatronPersonalizado_Lateral(bool[,] patronOriginal)
+        {
+            if (patronOriginal == null)
+                return null;
+
+            bool[,] patronCopia = new bool[5, 5];
+
+            for (int fila = 0; fila < 5; fila++)
+            {
+                for (int columna = 0; columna < 5; columna++)
+                {
+                    patronCopia[fila, columna] = patronOriginal[fila, columna];
+                }
+            }
+
+            return patronCopia;
+        }
+        // --- FIN AÑADIDO ---
 
         private void InicializarJuego()
         {
@@ -98,31 +256,7 @@ namespace LoteriaMexicana.Forms
             _indiceCartonActual = 0;
             _carton = _cartonesJugador[_indiceCartonActual];
 
-            panelCarton.Controls.Clear();
-
-            int size = 80;
-            int margen = 5;
-
-            for (int f = 0; f < CartonJugador.FILAS; f++)
-            {
-                for (int c = 0; c < CartonJugador.COLUMNAS; c++)
-                {
-                    PictureBox pic = new PictureBox();
-
-                    pic.Name = $"pic_{f}_{c}";
-                    pic.Size = new Size(size, size);
-                    pic.Location = new Point(c * (size + margen), f * (size + margen));
-                    pic.SizeMode = PictureBoxSizeMode.StretchImage;
-                    pic.Tag = $"{f},{c}";
-                    pic.Cursor = Cursors.Hand;
-                    pic.BackColor = Color.Transparent;
-                    pic.Click += PicCarton_Click;
-
-                    panelCarton.Controls.Add(pic);
-                    _picsCarton[f, c] = pic;
-                }
-            }
-
+            DibujarTodosLosCartones();
             ActualizarGridCarton();
             ActualizarEtiquetaCarton();
 
@@ -183,6 +317,101 @@ namespace LoteriaMexicana.Forms
             btnCartonSiguiente.BringToFront();
         }
 
+        private void DibujarTodosLosCartones()
+        {
+            panelCarton.SuspendLayout();
+            panelCarton.Controls.Clear();
+            _picsCartones.Clear();
+
+            if (_cartonesJugador == null || _cartonesJugador.Count == 0)
+            {
+                panelCarton.ResumeLayout();
+                return;
+            }
+
+            int total = _cartonesJugador.Count;
+            int anchoPanel = Math.Max(1, panelCarton.ClientSize.Width);
+            int altoPanel = Math.Max(1, panelCarton.ClientSize.Height);
+            int mejorColumnas = 1;
+            int mejorFilas = total;
+            int mejorCelda = 1;
+
+            for (int columnas = 1; columnas <= total; columnas++)
+            {
+                int filas = (int)Math.Ceiling(total / (double)columnas);
+                int anchoDisponible = (anchoPanel - 12 - (columnas - 1) * 10) / columnas;
+                int altoDisponible = (altoPanel - 12 - (filas - 1) * 12) / filas;
+                int celdaPorAncho = (anchoDisponible - 8) / CartonJugador.COLUMNAS;
+                int celdaPorAlto = (altoDisponible - 22) / CartonJugador.FILAS;
+                int celda = Math.Min(celdaPorAncho, celdaPorAlto);
+
+                if (celda > mejorCelda)
+                {
+                    mejorCelda = celda;
+                    mejorColumnas = columnas;
+                    mejorFilas = filas;
+                }
+            }
+
+            int margenCelda = mejorCelda >= 18 ? 3 : 1;
+            int celdaFinal = Math.Max(1, mejorCelda);
+            int anchoCarton = CartonJugador.COLUMNAS * celdaFinal + (CartonJugador.COLUMNAS - 1) * margenCelda;
+            int altoCarton = CartonJugador.FILAS * celdaFinal + (CartonJugador.FILAS - 1) * margenCelda;
+            int anchoBloque = Math.Max(1, (anchoPanel - 12 - (mejorColumnas - 1) * 10) / mejorColumnas);
+            int altoBloque = Math.Max(1, (altoPanel - 12 - (mejorFilas - 1) * 12) / mejorFilas);
+
+            for (int indiceCarton = 0; indiceCarton < total; indiceCarton++)
+            {
+                int filaBloque = indiceCarton / mejorColumnas;
+                int columnaBloque = indiceCarton % mejorColumnas;
+                int baseX = 6 + columnaBloque * (anchoBloque + 10);
+                int baseY = 6 + filaBloque * (altoBloque + 12);
+                int gridX = baseX + Math.Max(0, (anchoBloque - anchoCarton) / 2);
+                int gridY = baseY + 18;
+
+                Label lblTabla = new Label();
+                lblTabla.AutoSize = false;
+                lblTabla.BackColor = Color.Transparent;
+                lblTabla.ForeColor = Color.Maroon;
+                lblTabla.Font = new Font("Segoe UI", 7F, FontStyle.Bold);
+                lblTabla.Location = new Point(baseX, baseY);
+                lblTabla.Size = new Size(anchoBloque, 16);
+                lblTabla.Text = "Tabla " + (indiceCarton + 1);
+                panelCarton.Controls.Add(lblTabla);
+
+                PictureBox[,] pics = new PictureBox[CartonJugador.FILAS, CartonJugador.COLUMNAS];
+
+                for (int f = 0; f < CartonJugador.FILAS; f++)
+                {
+                    for (int c = 0; c < CartonJugador.COLUMNAS; c++)
+                    {
+                        PictureBox pic = new PictureBox();
+                        pic.Name = $"pic_{indiceCarton}_{f}_{c}";
+                        pic.Size = new Size(celdaFinal, celdaFinal);
+                        pic.Location = new Point(
+                            gridX + c * (celdaFinal + margenCelda),
+                            gridY + f * (celdaFinal + margenCelda));
+                        pic.SizeMode = PictureBoxSizeMode.StretchImage;
+                        pic.Tag = $"{indiceCarton},{f},{c}";
+                        pic.Cursor = Cursors.Hand;
+                        pic.BackColor = Color.Transparent;
+                        pic.BorderStyle = BorderStyle.FixedSingle;
+                        pic.Click += PicCarton_Click;
+
+                        panelCarton.Controls.Add(pic);
+                        pics[f, c] = pic;
+
+                        if (indiceCarton == _indiceCartonActual)
+                            _picsCarton[f, c] = pic;
+                    }
+                }
+
+                _picsCartones.Add(pics);
+            }
+
+            panelCarton.ResumeLayout();
+        }
+
         private void ActualizarEtiquetaCarton()
         {
             if (lblCartonActual == null)
@@ -209,6 +438,9 @@ namespace LoteriaMexicana.Forms
 
             _indiceCartonActual = indice;
             _carton = _cartonesJugador[_indiceCartonActual];
+
+            if (_indiceCartonActual < _picsCartones.Count)
+                _picsCarton = _picsCartones[_indiceCartonActual];
 
             ActualizarGridCarton();
             ActualizarEtiquetaCarton();
@@ -317,8 +549,31 @@ namespace LoteriaMexicana.Forms
             if (carta == null)
                 return;
 
-            string texto = $"{lstHistorial.Items.Count + 1}. {carta.Nombre}";
-            lstHistorial.Items.Insert(0, texto);
+            lstHistorial.Items.Insert(0, carta);
+        }
+
+        private void lstHistorial_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            e.DrawBackground();
+
+            if (e.Index < 0 || e.Index >= lstHistorial.Items.Count)
+                return;
+
+            Carta carta = lstHistorial.Items[e.Index] as Carta;
+
+            if (carta == null)
+                return;
+
+            Rectangle rectImagen = new Rectangle(
+                e.Bounds.Left + (e.Bounds.Width - 42) / 2,
+                e.Bounds.Top + 4,
+                42,
+                e.Bounds.Height - 8);
+
+            if (carta.Imagen != null)
+                e.Graphics.DrawImage(carta.Imagen, rectImagen);
+
+            e.DrawFocusRectangle();
         }
 
         private void LimpiarHistorial()
@@ -397,8 +652,18 @@ namespace LoteriaMexicana.Forms
 
             string[] partes = pic.Tag.ToString().Split(',');
 
-            int fila = int.Parse(partes[0]);
-            int col = int.Parse(partes[1]);
+            int indiceCarton = partes.Length == 3 ? int.Parse(partes[0]) : _indiceCartonActual;
+            int fila = int.Parse(partes[partes.Length - 2]);
+            int col = int.Parse(partes[partes.Length - 1]);
+
+            if (indiceCarton < 0 || indiceCarton >= _cartonesJugador.Count)
+                return;
+
+            _indiceCartonActual = indiceCarton;
+            _carton = _cartonesJugador[_indiceCartonActual];
+
+            if (_indiceCartonActual < _picsCartones.Count)
+                _picsCarton = _picsCartones[_indiceCartonActual];
 
             if (_carton.Marcadas[fila, col])
             {
@@ -423,15 +688,53 @@ namespace LoteriaMexicana.Forms
 
                     int idCarta = carton.Cartas[f, c].Id;
 
-                    bool fueCantada = _baraja.CartasCantadas.Exists(
-                        carta => carta.Id == idCarta);
-
-                    if (!fueCantada)
+                    if (!CartaFueCantada(idCarta))
                         return false;
                 }
             }
 
             return true;
+        }
+
+        private bool CartaFueCantada(int idCarta)
+        {
+            return _baraja != null &&
+                _baraja.CartasCantadas.Exists(carta => carta.Id == idCarta);
+        }
+
+        private bool ResaltarCartasMarcadasNoCantadas()
+        {
+            if (_cartonesJugador == null)
+                return false;
+
+            ActualizarGridCarton();
+            bool hayCartasNoCantadas = false;
+
+            for (int indiceCarton = 0; indiceCarton < _cartonesJugador.Count; indiceCarton++)
+            {
+                if (indiceCarton >= _picsCartones.Count)
+                    continue;
+
+                CartonJugador carton = _cartonesJugador[indiceCarton];
+                PictureBox[,] pics = _picsCartones[indiceCarton];
+
+                for (int f = 0; f < CartonJugador.FILAS; f++)
+                {
+                    for (int c = 0; c < CartonJugador.COLUMNAS; c++)
+                    {
+                        if (!carton.Marcadas[f, c])
+                            continue;
+
+                        if (!CartaFueCantada(carton.Cartas[f, c].Id))
+                        {
+                            MarcarVisualmente(pics[f, c], Color.DarkRed, 190);
+                            hayCartasNoCantadas = true;
+                        }
+                    }
+                }
+            }
+
+            return hayCartasNoCantadas;
         }
 
         private bool CumpleModoVictoria(CartonJugador carton)
@@ -631,6 +934,11 @@ namespace LoteriaMexicana.Forms
 
         private void MarcarVisualmente(PictureBox pic)
         {
+            MarcarVisualmente(pic, Color.FromArgb(120, 62, 45), 185);
+        }
+
+        private void MarcarVisualmente(PictureBox pic, Color colorMarca, int alpha)
+        {
             if (pic.Image == null)
                 return;
 
@@ -645,32 +953,10 @@ namespace LoteriaMexicana.Forms
                 g.Clear(Color.Transparent);
                 g.DrawImage(original, 0, 0, pic.Width, pic.Height);
 
-                if (_imagenFicha != null)
+                using (SolidBrush brush =
+                    new SolidBrush(Color.FromArgb(alpha, colorMarca)))
                 {
-                    int margen = (int)(pic.Width * 0.18);
-
-                    Rectangle rect = new Rectangle(
-                        margen,
-                        margen,
-                        pic.Width - margen * 2,
-                        pic.Height - margen * 2);
-
-                    g.DrawImage(_imagenFicha, rect);
-                }
-                else
-                {
-                    using (SolidBrush brush =
-                        new SolidBrush(Color.FromArgb(160, Color.Crimson)))
-                    {
-                        int margen = (int)(pic.Width * 0.1);
-
-                        g.FillEllipse(
-                            brush,
-                            margen,
-                            margen,
-                            pic.Width - margen * 2,
-                            pic.Height - margen * 2);
-                    }
+                    g.FillRectangle(brush, 0, 0, pic.Width, pic.Height);
                 }
             }
 
@@ -835,20 +1121,32 @@ namespace LoteriaMexicana.Forms
 
         private void ActualizarGridCarton()
         {
-            if (_carton == null)
+            if (_cartonesJugador == null || _cartonesJugador.Count == 0)
                 return;
 
-            for (int f = 0; f < CartonJugador.FILAS; f++)
+            for (int indiceCarton = 0; indiceCarton < _cartonesJugador.Count; indiceCarton++)
             {
-                for (int c = 0; c < CartonJugador.COLUMNAS; c++)
-                {
-                    _picsCarton[f, c].Image = _carton.Cartas[f, c].Imagen;
-                    _picsCarton[f, c].BackColor = Color.Transparent;
+                if (indiceCarton >= _picsCartones.Count)
+                    continue;
 
-                    if (_carton.Marcadas[f, c])
-                        MarcarVisualmente(_picsCarton[f, c]);
+                CartonJugador carton = _cartonesJugador[indiceCarton];
+                PictureBox[,] pics = _picsCartones[indiceCarton];
+
+                for (int f = 0; f < CartonJugador.FILAS; f++)
+                {
+                    for (int c = 0; c < CartonJugador.COLUMNAS; c++)
+                    {
+                        pics[f, c].Image = carton.Cartas[f, c].Imagen;
+                        pics[f, c].BackColor = Color.Transparent;
+
+                        if (carton.Marcadas[f, c])
+                            MarcarVisualmente(pics[f, c]);
+                    }
                 }
             }
+
+            if (_indiceCartonActual >= 0 && _indiceCartonActual < _picsCartones.Count)
+                _picsCarton = _picsCartones[_indiceCartonActual];
 
             ActualizarEtiquetaCarton();
         }
@@ -1136,7 +1434,128 @@ namespace LoteriaMexicana.Forms
 
         private void FrmJuego_Load(object sender, EventArgs e)
         {
+            AjustarLayoutPantallaGrande();
         }
+
+        // --- AÑADIDO: panel lateral config ---
+        private void btnIniciarPartida_Lateral_Click(object sender, EventArgs e)
+        {
+            if (chkdFormaVictoria_Lateral.CheckedItems.Count == 0)
+            {
+                MessageBox.Show(
+                    "Debes seleccionar al menos una forma de ganar.",
+                    "Modo de victoria",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return;
+            }
+
+            _cantidadCartones = (int)nudCantidadCartones_Lateral.Value;
+
+            bool horizontalSeleccionado = false;
+            bool verticalSeleccionado = false;
+            bool diagonalSeleccionado = false;
+            bool llenaSeleccionado = false;
+            bool personalizadoSeleccionado = false;
+            string nombrePatron = "";
+
+            for (int i = 0; i < chkdFormaVictoria_Lateral.CheckedItems.Count; i++)
+            {
+                string item = chkdFormaVictoria_Lateral.CheckedItems[i].ToString();
+
+                if (item == "Línea horizontal") horizontalSeleccionado = true;
+                else if (item == "Línea vertical") verticalSeleccionado = true;
+                else if (item == "Diagonal") diagonalSeleccionado = true;
+                else if (item == "Cartón lleno") llenaSeleccionado = true;
+                else
+                {
+                    personalizadoSeleccionado = true;
+                    nombrePatron = item;
+                }
+            }
+
+            _opcionesVictoria = new OpcionesVictoria
+            {
+                Horizontal = horizontalSeleccionado,
+                Vertical = verticalSeleccionado,
+                Diagonal = diagonalSeleccionado,
+                Lleno = llenaSeleccionado,
+                Personalizado = personalizadoSeleccionado,
+                PatronPersonalizado = CopiarPatronPersonalizado_Lateral(_patronVictoriaPersonalizado_Lateral)
+            };
+
+            if (personalizadoSeleccionado)
+            {
+                bool[,] patron = LeerPatron_Lateral(nombrePatron);
+                _opcionesVictoria.PatronPersonalizado = patron;
+            }
+
+            InicializarOpciones();
+            InicializarJuego();
+        }
+
+        private void CargarPatrones_Lateral()
+        {
+            string carpeta = Application.StartupPath + "\\MisFormasDeVictoria";
+
+            if (!Directory.Exists(carpeta))
+                return;
+
+            string[] archivos = Directory.GetFiles(carpeta, "*.txt");
+
+            for (int i = 0; i < archivos.Length; i++)
+            {
+                string[] lineas = File.ReadAllLines(archivos[i]);
+                if (lineas.Length >= 2)
+                {
+                    chkdFormaVictoria_Lateral.Items.Add(lineas[0]);
+                }
+            }
+        }
+
+        private bool[,] LeerPatron_Lateral(string nombre)
+        {
+            string ruta = Application.StartupPath + "\\MisFormasDeVictoria\\" + nombre + ".txt";
+            string[] lineas = File.ReadAllLines(ruta);
+            string[] valores = lineas[1].Split(',');
+
+            bool[,] patron = new bool[5, 5];
+            int indice = 0;
+            for (int i = 0; i < 5; i++)
+            {
+                for (int j = 0; j < 5; j++)
+                {
+                    patron[i, j] = valores[indice] == "1";
+                    indice++;
+                }
+            }
+            return patron;
+        }
+
+        private void btnCancelar_Lateral_Click(object sender, EventArgs e)
+        {
+            pnlConfigLateral.Visible = false;
+        }
+
+        private void btnNuevaFormaDeGanar_Lateral_Click(object sender, EventArgs e)
+        {
+            FrmPersonalizarVictoria frmPersonalizar =
+            new FrmPersonalizarVictoria(_patronVictoriaPersonalizado_Lateral);
+
+            if (frmPersonalizar.ShowDialog(this) == DialogResult.OK)
+            {
+                _patronVictoriaPersonalizado_Lateral =
+                CopiarPatronPersonalizado_Lateral(frmPersonalizar.PatronSeleccionado);
+            }
+            else
+            {
+                _patronVictoriaPersonalizado_Lateral = null;
+                chkdFormaVictoria_Lateral.SetItemChecked(chkdFormaVictoria_Lateral.Items.Count - 1, false);
+            }
+
+            CargarPatrones_Lateral();
+        }
+        // --- FIN AÑADIDO ---
 
         private void nudVelocidad_ValueChanged(object sender, EventArgs e)
         {
@@ -1173,6 +1592,7 @@ namespace LoteriaMexicana.Forms
             bool existeVictoriaConCartasNoCantadas;
             List<int> indicesGanadores =
                 BuscarCartonesGanadoresValidos(out existeVictoriaConCartasNoCantadas);
+            bool hayCartasMarcadasNoCantadas = ResaltarCartasMarcadasNoCantadas();
 
             if (indicesGanadores.Count == 1)
             {
@@ -1188,7 +1608,7 @@ namespace LoteriaMexicana.Forms
                 return;
             }
 
-            if (existeVictoriaConCartasNoCantadas)
+            if (existeVictoriaConCartasNoCantadas || hayCartasMarcadasNoCantadas)
             {
                 MessageBox.Show(
                     "Buenas inválidas.\n\nEl cartón tiene forma de ganar, pero hay cartas marcadas que aún no han sido cantadas.",
@@ -1240,15 +1660,7 @@ namespace LoteriaMexicana.Forms
 
                 try
                 {
-                    OpenFileDialog dlg = new OpenFileDialog
-                    {
-                        Filter = "Cartón de Lotería (*.loteria)|*.loteria"
-                    };
-
-                    if (dlg.ShowDialog() != DialogResult.OK)
-                        return;
-
-                    string[] lineas = File.ReadAllLines(dlg.FileName);
+                    string[] lineas = File.ReadAllLines(dialogo.FileName);
 
                     if (lineas.Length != CartonJugador.TOTAL)
                     {
@@ -1277,7 +1689,13 @@ namespace LoteriaMexicana.Forms
                         }
                     }
 
-                    _carton.CargarCartas(cartasCargadas);
+                    CartonJugador cartonCargado = new CartonJugador(ObtenerTodasLasCartas());
+                    cartonCargado.CargarCartas(cartasCargadas);
+                    _cartonesJugador.Add(cartonCargado);
+                    _cantidadCartones = _cartonesJugador.Count;
+                    _indiceCartonActual = _cartonesJugador.Count - 1;
+                    _carton = cartonCargado;
+                    DibujarTodosLosCartones();
                     ActualizarGridCarton();
 
                     picCartaActual.Image = null;
@@ -1328,7 +1746,13 @@ namespace LoteriaMexicana.Forms
                 if (frm.ShowDialog(this) != DialogResult.OK)
                     return;
 
-                _carton.CargarCartas(frm.CartasSeleccionadas);
+                CartonJugador cartonNuevo = new CartonJugador(ObtenerTodasLasCartas());
+                cartonNuevo.CargarCartas(frm.CartasSeleccionadas);
+                _cartonesJugador.Add(cartonNuevo);
+                _cantidadCartones = _cartonesJugador.Count;
+                _indiceCartonActual = _cartonesJugador.Count - 1;
+                _carton = cartonNuevo;
+                DibujarTodosLosCartones();
                 ActualizarGridCarton();
 
                 _jugando = true;
@@ -1355,6 +1779,16 @@ namespace LoteriaMexicana.Forms
                 if (guardar == DialogResult.Yes)
                     GuardarCartonEnArchivo();
             }
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtMensajeChat_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
