@@ -73,7 +73,7 @@
             // 
             this.panelCarton.BackColor = System.Drawing.Color.Tan;
             this.panelCarton.Controls.Add(this.dateTimePicker1);
-            this.panelCarton.Location = new System.Drawing.Point(292, 70);
+            this.panelCarton.Location = new System.Drawing.Point(292, 73);
             this.panelCarton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panelCarton.Name = "panelCarton";
             this.panelCarton.Size = new System.Drawing.Size(873, 532);
