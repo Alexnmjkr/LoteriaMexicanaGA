@@ -44,10 +44,9 @@
             this.lblSeleccioneLasCasillas.AutoSize = true;
             this.lblSeleccioneLasCasillas.BackColor = System.Drawing.Color.Peru;
             this.lblSeleccioneLasCasillas.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSeleccioneLasCasillas.Location = new System.Drawing.Point(21, 22);
-            this.lblSeleccioneLasCasillas.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblSeleccioneLasCasillas.Location = new System.Drawing.Point(28, 27);
             this.lblSeleccioneLasCasillas.Name = "lblSeleccioneLasCasillas";
-            this.lblSeleccioneLasCasillas.Size = new System.Drawing.Size(153, 19);
+            this.lblSeleccioneLasCasillas.Size = new System.Drawing.Size(179, 23);
             this.lblSeleccioneLasCasillas.TabIndex = 0;
             this.lblSeleccioneLasCasillas.Text = "Seleccione las casillas";
             // 
@@ -56,10 +55,10 @@
             this.btnGuardar.BackColor = System.Drawing.Color.OliveDrab;
             this.btnGuardar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnGuardar.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnGuardar.Location = new System.Drawing.Point(221, 421);
-            this.btnGuardar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnGuardar.Location = new System.Drawing.Point(294, 518);
+            this.btnGuardar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnGuardar.Name = "btnGuardar";
-            this.btnGuardar.Size = new System.Drawing.Size(85, 42);
+            this.btnGuardar.Size = new System.Drawing.Size(113, 52);
             this.btnGuardar.TabIndex = 0;
             this.btnGuardar.Text = "Guardar";
             this.btnGuardar.UseVisualStyleBackColor = false;
@@ -70,10 +69,10 @@
             this.btnCancelar.BackColor = System.Drawing.Color.Gray;
             this.btnCancelar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancelar.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCancelar.Location = new System.Drawing.Point(310, 421);
-            this.btnCancelar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnCancelar.Location = new System.Drawing.Point(413, 518);
+            this.btnCancelar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCancelar.Name = "btnCancelar";
-            this.btnCancelar.Size = new System.Drawing.Size(85, 42);
+            this.btnCancelar.Size = new System.Drawing.Size(113, 52);
             this.btnCancelar.TabIndex = 2;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = false;
@@ -81,10 +80,10 @@
             // 
             // txtbNombreNuevaVictoria
             // 
-            this.txtbNombreNuevaVictoria.Location = new System.Drawing.Point(65, 446);
-            this.txtbNombreNuevaVictoria.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtbNombreNuevaVictoria.Location = new System.Drawing.Point(87, 549);
+            this.txtbNombreNuevaVictoria.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtbNombreNuevaVictoria.Name = "txtbNombreNuevaVictoria";
-            this.txtbNombreNuevaVictoria.Size = new System.Drawing.Size(143, 20);
+            this.txtbNombreNuevaVictoria.Size = new System.Drawing.Size(189, 22);
             this.txtbNombreNuevaVictoria.TabIndex = 3;
             // 
             // lblNombre
@@ -92,19 +91,19 @@
             this.lblNombre.AutoSize = true;
             this.lblNombre.BackColor = System.Drawing.Color.Peru;
             this.lblNombre.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNombre.Location = new System.Drawing.Point(65, 418);
-            this.lblNombre.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblNombre.Location = new System.Drawing.Point(87, 514);
             this.lblNombre.Name = "lblNombre";
-            this.lblNombre.Size = new System.Drawing.Size(69, 19);
+            this.lblNombre.Size = new System.Drawing.Size(81, 23);
             this.lblNombre.TabIndex = 5;
             this.lblNombre.Text = "Nombre:";
             // 
             // pictureBox1
             // 
             this.pictureBox1.Image = global::LoteriaMexicana.Properties.Resources.FondoTablas;
-            this.pictureBox1.Location = new System.Drawing.Point(10, 7);
+            this.pictureBox1.Location = new System.Drawing.Point(13, 9);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(178, 50);
+            this.pictureBox1.Size = new System.Drawing.Size(237, 62);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 5;
             this.pictureBox1.TabStop = false;
@@ -112,19 +111,20 @@
             // pictureBox2
             // 
             this.pictureBox2.Image = global::LoteriaMexicana.Properties.Resources.FondoTablas;
-            this.pictureBox2.Location = new System.Drawing.Point(40, 398);
+            this.pictureBox2.Location = new System.Drawing.Point(53, 490);
+            this.pictureBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(380, 86);
+            this.pictureBox2.Size = new System.Drawing.Size(507, 106);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox2.TabIndex = 6;
             this.pictureBox2.TabStop = false;
             // 
             // FrmPersonalizarVictoria
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::LoteriaMexicana.Properties.Resources.madera1;
-            this.ClientSize = new System.Drawing.Size(462, 492);
+            this.ClientSize = new System.Drawing.Size(616, 606);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.txtbNombreNuevaVictoria);
             this.Controls.Add(this.btnGuardar);
@@ -132,7 +132,7 @@
             this.Controls.Add(this.lblSeleccioneLasCasillas);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.pictureBox2);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "FrmPersonalizarVictoria";
             this.Text = "Personalizar Victoria";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
