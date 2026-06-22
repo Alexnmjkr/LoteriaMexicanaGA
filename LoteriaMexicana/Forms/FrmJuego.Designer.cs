@@ -82,7 +82,7 @@
             // dateTimePicker1
             // 
             this.dateTimePicker1.Location = new System.Drawing.Point(513, -31);
-            this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(4);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(265, 22);
             this.dateTimePicker1.TabIndex = 29;
@@ -210,7 +210,7 @@
             // 
             this.pictureBox1.Image = global::LoteriaMexicana.Properties.Resources.Fondo_Tabla;
             this.pictureBox1.Location = new System.Drawing.Point(-3, 0);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(277, 682);
             this.pictureBox1.TabIndex = 0;
@@ -350,7 +350,7 @@
             this.btnNuevaFormaDeGanar_Lateral.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
             this.btnNuevaFormaDeGanar_Lateral.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
             this.btnNuevaFormaDeGanar_Lateral.Font = new System.Drawing.Font("Segoe UI Semibold", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNuevaFormaDeGanar_Lateral.Location = new System.Drawing.Point(92, 191);
+            this.btnNuevaFormaDeGanar_Lateral.Location = new System.Drawing.Point(92, 179);
             this.btnNuevaFormaDeGanar_Lateral.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnNuevaFormaDeGanar_Lateral.Name = "btnNuevaFormaDeGanar_Lateral";
             this.btnNuevaFormaDeGanar_Lateral.Size = new System.Drawing.Size(260, 46);
@@ -464,7 +464,7 @@
             // 
             this.pictureBox2.Image = global::LoteriaMexicana.Properties.Resources.FondoTablas;
             this.pictureBox2.Location = new System.Drawing.Point(45, 279);
-            this.pictureBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pictureBox2.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(349, 159);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -475,7 +475,7 @@
             // 
             this.pictureBox3.Image = global::LoteriaMexicana.Properties.Resources.FondoTablas;
             this.pictureBox3.Location = new System.Drawing.Point(20, 53);
-            this.pictureBox3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pictureBox3.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(407, 203);
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
