@@ -22,6 +22,7 @@ namespace LoteriaMexicana.Network
 
             _cliente = new TcpClient();
             _cliente.Connect(ip, puerto);
+            _cliente.NoDelay = true;
 
             _writer = new StreamWriter(_cliente.GetStream());
             _writer.AutoFlush = true;

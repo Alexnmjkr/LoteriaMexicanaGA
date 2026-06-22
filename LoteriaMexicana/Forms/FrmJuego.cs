@@ -1361,6 +1361,9 @@ namespace LoteriaMexicana.Forms
                 {
                     string ganador = mensaje.Substring(8);
 
+                    if (_soyCliente && ganador == _nombreJugador)
+                        return;
+
                     _jugando = false;
                     timerAuto.Stop();
 

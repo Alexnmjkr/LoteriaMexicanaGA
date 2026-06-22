@@ -11,6 +11,7 @@ namespace LoteriaMexicana.Network
     {
         private TcpListener _listener;
         private readonly List<TcpClient> _clientes = new List<TcpClient>();
+        private readonly Dictionary<TcpClient, StreamWriter> _writers = new Dictionary<TcpClient, StreamWriter>();
         private bool _activo;
 
         public event Action<string> MensajeRecibido;
@@ -46,6 +47,7 @@ namespace LoteriaMexicana.Network
                 foreach (TcpClient cliente in desconectados)
                 {
                     _clientes.Remove(cliente);
+                    _writers.Remove(cliente);
                     cliente.Close();
                 }
             }
@@ -60,9 +62,19 @@ namespace LoteriaMexicana.Network
             lock (_clientes)
             {
                 foreach (TcpClient cliente in _clientes)
+                {
+                    StreamWriter writer;
+
+                    if (_writers.TryGetValue(cliente, out writer))
+                    {
+                        try { writer.Close(); } catch { }
+                    }
+
                     cliente.Close();
+                }
 
                 _clientes.Clear();
+                _writers.Clear();
             }
         }
 
@@ -73,9 +85,16 @@ namespace LoteriaMexicana.Network
                 try
                 {
                     TcpClient cliente = _listener.AcceptTcpClient();
+                    cliente.NoDelay = true;
+
+                    StreamWriter writer = new StreamWriter(cliente.GetStream());
+                    writer.AutoFlush = true;
 
                     lock (_clientes)
+                    {
                         _clientes.Add(cliente);
+                        _writers[cliente] = writer;
+                    }
 
                     string ip = ((IPEndPoint)cliente.Client.RemoteEndPoint).Address.ToString();
                     ClienteConectado?.Invoke(ip);
@@ -115,7 +134,10 @@ namespace LoteriaMexicana.Network
             finally
             {
                 lock (_clientes)
+                {
                     _clientes.Remove(cliente);
+                    _writers.Remove(cliente);
+                }
 
                 try { cliente.Close(); } catch { }
             }
@@ -125,8 +147,11 @@ namespace LoteriaMexicana.Network
         {
             try
             {
-                StreamWriter writer = new StreamWriter(cliente.GetStream());
-                writer.AutoFlush = true;
+                StreamWriter writer;
+
+                if (!_writers.TryGetValue(cliente, out writer))
+                    return false;
+
                 writer.WriteLine(mensaje);
                 return true;
             }
