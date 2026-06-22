@@ -21,7 +21,17 @@ namespace LoteriaMexicana.Network
             if (_conectado) return;
 
             _cliente = new TcpClient();
-            _cliente.Connect(ip, puerto);
+
+            IAsyncResult resultado = _cliente.BeginConnect(ip, puerto, null, null);
+
+            if (!resultado.AsyncWaitHandle.WaitOne(3000))
+            {
+                try { _cliente.Close(); } catch { }
+                _cliente = null;
+                throw new TimeoutException("No hubo respuesta de " + ip + ":" + puerto + " en 3 segundos.");
+            }
+
+            _cliente.EndConnect(resultado);
             _cliente.NoDelay = true;
 
             _writer = new StreamWriter(_cliente.GetStream());

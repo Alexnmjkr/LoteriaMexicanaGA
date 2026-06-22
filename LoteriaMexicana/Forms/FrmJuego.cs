@@ -1257,12 +1257,16 @@ namespace LoteriaMexicana.Forms
                 _soyServidor = true;
                 _soyCliente = false;
 
-                lblEstadoRed.Text = "Servidor activo. IP:\n " + ObtenerIpLocal();
+                string ipServidor = ObtenerIpLocal();
+
+                lblEstadoRed.Text = "Servidor activo. IP:\n " + ipServidor;
 
                 AplicarModoRed();
 
                 MessageBox.Show(
-                    "Partida creada. Los clientes deben conectarse a esta IP:\n" + ObtenerIpLocal(),
+                    "Partida creada.\n\n" +
+                    "Si juegas en esta misma PC, conecta con:\n127.0.0.1\n\n" +
+                    "Si se conecta otra PC en la misma red, conecta con:\n" + ipServidor,
                     "Servidor activo",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
@@ -1277,7 +1281,7 @@ namespace LoteriaMexicana.Forms
         {
             try
             {
-                string ip = PedirTexto("Unirse a partida", "IP del servidor:", "192.168.1.1");
+                string ip = PedirTexto("Unirse a partida", "IP del servidor (misma PC: 127.0.0.1):", "127.0.0.1");
 
                 if (string.IsNullOrWhiteSpace(ip))
                     return;
@@ -1314,7 +1318,15 @@ namespace LoteriaMexicana.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show("No se pudo conectar: " + ex.Message);
+                MessageBox.Show(
+                    "No se pudo conectar a la partida.\n\n" +
+                    "Revisa que primero hayas presionado Crear Partida en la PC servidor.\n" +
+                    "Si pruebas en esta misma PC usa 127.0.0.1.\n" +
+                    "Si pruebas desde otra PC usa la IP que muestra el servidor.\n\n" +
+                    "Detalle: " + ex.Message,
+                    "Error de conexion",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
             }
         }
 
