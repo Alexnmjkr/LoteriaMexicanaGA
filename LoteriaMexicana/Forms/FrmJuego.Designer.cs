@@ -28,9 +28,14 @@
             this.picCartaActual = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pnlConfigLateral = new System.Windows.Forms.Panel();
+            this.label1_Lateral = new System.Windows.Forms.Label();
+            this.lblCantidad_Lateral = new System.Windows.Forms.Label();
+            this.nudCantidadCartones_Lateral = new System.Windows.Forms.NumericUpDown();
             this.lstChat = new System.Windows.Forms.ListBox();
             this.btnCrearPartida = new System.Windows.Forms.Button();
             this.btnEnviarChat = new System.Windows.Forms.Button();
+            this.chkdFormaVictoria_Lateral = new System.Windows.Forms.CheckedListBox();
+            this.btnNuevaFormaDeGanar_Lateral = new System.Windows.Forms.Button();
             this.btnGuardarCarton = new System.Windows.Forms.Button();
             this.txtMensajeChat = new System.Windows.Forms.TextBox();
             this.lblTitulo_Lateral = new System.Windows.Forms.Label();
@@ -41,19 +46,14 @@
             this.btnReiniciarPartida_Lateral = new System.Windows.Forms.Button();
             this.btnMenu = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.chkdFormaVictoria_Lateral = new System.Windows.Forms.CheckedListBox();
-            this.btnNuevaFormaDeGanar_Lateral = new System.Windows.Forms.Button();
-            this.label1_Lateral = new System.Windows.Forms.Label();
-            this.lblCantidad_Lateral = new System.Windows.Forms.Label();
-            this.nudCantidadCartones_Lateral = new System.Windows.Forms.NumericUpDown();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.panelCarton.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudVelocidad)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picCartaActual)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.pnlConfigLateral.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudCantidadCartones_Lateral)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.SuspendLayout();
             // 
@@ -247,6 +247,56 @@
             this.pnlConfigLateral.Size = new System.Drawing.Size(325, 535);
             this.pnlConfigLateral.TabIndex = 27;
             // 
+            // label1_Lateral
+            // 
+            this.label1_Lateral.AutoSize = true;
+            this.label1_Lateral.BackColor = System.Drawing.Color.DarkRed;
+            this.label1_Lateral.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.label1_Lateral.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label1_Lateral.Location = new System.Drawing.Point(41, 62);
+            this.label1_Lateral.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1_Lateral.Name = "label1_Lateral";
+            this.label1_Lateral.Size = new System.Drawing.Size(108, 15);
+            this.label1_Lateral.TabIndex = 9;
+            this.label1_Lateral.Text = "Forma de Victoria:";
+            // 
+            // lblCantidad_Lateral
+            // 
+            this.lblCantidad_Lateral.AutoSize = true;
+            this.lblCantidad_Lateral.BackColor = System.Drawing.Color.DarkRed;
+            this.lblCantidad_Lateral.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.lblCantidad_Lateral.ForeColor = System.Drawing.Color.White;
+            this.lblCantidad_Lateral.Location = new System.Drawing.Point(172, 63);
+            this.lblCantidad_Lateral.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblCantidad_Lateral.Name = "lblCantidad_Lateral";
+            this.lblCantidad_Lateral.Size = new System.Drawing.Size(124, 15);
+            this.lblCantidad_Lateral.TabIndex = 1;
+            this.lblCantidad_Lateral.Text = "Número de cartones:";
+            // 
+            // nudCantidadCartones_Lateral
+            // 
+            this.nudCantidadCartones_Lateral.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.nudCantidadCartones_Lateral.Location = new System.Drawing.Point(191, 101);
+            this.nudCantidadCartones_Lateral.Margin = new System.Windows.Forms.Padding(2);
+            this.nudCantidadCartones_Lateral.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.nudCantidadCartones_Lateral.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nudCantidadCartones_Lateral.Name = "nudCantidadCartones_Lateral";
+            this.nudCantidadCartones_Lateral.Size = new System.Drawing.Size(88, 25);
+            this.nudCantidadCartones_Lateral.TabIndex = 2;
+            this.nudCantidadCartones_Lateral.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
             // lstChat
             // 
             this.lstChat.FormattingEnabled = true;
@@ -278,6 +328,37 @@
             this.btnEnviarChat.Text = "Enviar";
             this.btnEnviarChat.UseVisualStyleBackColor = true;
             this.btnEnviarChat.Click += new System.EventHandler(this.btnEnviarChat_Click);
+            // 
+            // chkdFormaVictoria_Lateral
+            // 
+            this.chkdFormaVictoria_Lateral.BackColor = System.Drawing.Color.SandyBrown;
+            this.chkdFormaVictoria_Lateral.FormattingEnabled = true;
+            this.chkdFormaVictoria_Lateral.Items.AddRange(new object[] {
+            "Línea horizontal",
+            "Línea vertical",
+            "Diagonal",
+            "Cartón lleno"});
+            this.chkdFormaVictoria_Lateral.Location = new System.Drawing.Point(34, 83);
+            this.chkdFormaVictoria_Lateral.Margin = new System.Windows.Forms.Padding(2);
+            this.chkdFormaVictoria_Lateral.Name = "chkdFormaVictoria_Lateral";
+            this.chkdFormaVictoria_Lateral.Size = new System.Drawing.Size(128, 64);
+            this.chkdFormaVictoria_Lateral.TabIndex = 6;
+            // 
+            // btnNuevaFormaDeGanar_Lateral
+            // 
+            this.btnNuevaFormaDeGanar_Lateral.BackColor = System.Drawing.Color.Chocolate;
+            this.btnNuevaFormaDeGanar_Lateral.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.btnNuevaFormaDeGanar_Lateral.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.btnNuevaFormaDeGanar_Lateral.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.btnNuevaFormaDeGanar_Lateral.Font = new System.Drawing.Font("Segoe UI Semibold", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNuevaFormaDeGanar_Lateral.Location = new System.Drawing.Point(69, 155);
+            this.btnNuevaFormaDeGanar_Lateral.Margin = new System.Windows.Forms.Padding(2);
+            this.btnNuevaFormaDeGanar_Lateral.Name = "btnNuevaFormaDeGanar_Lateral";
+            this.btnNuevaFormaDeGanar_Lateral.Size = new System.Drawing.Size(195, 37);
+            this.btnNuevaFormaDeGanar_Lateral.TabIndex = 7;
+            this.btnNuevaFormaDeGanar_Lateral.Text = "Crear nueva forma";
+            this.btnNuevaFormaDeGanar_Lateral.UseVisualStyleBackColor = false;
+            this.btnNuevaFormaDeGanar_Lateral.Click += new System.EventHandler(this.btnNuevaFormaDeGanar_Lateral_Click);
             // 
             // btnGuardarCarton
             // 
@@ -391,87 +472,6 @@
             this.pictureBox2.TabIndex = 28;
             this.pictureBox2.TabStop = false;
             // 
-            // chkdFormaVictoria_Lateral
-            // 
-            this.chkdFormaVictoria_Lateral.BackColor = System.Drawing.Color.SandyBrown;
-            this.chkdFormaVictoria_Lateral.FormattingEnabled = true;
-            this.chkdFormaVictoria_Lateral.Items.AddRange(new object[] {
-            "Línea horizontal",
-            "Línea vertical",
-            "Diagonal",
-            "Cartón lleno"});
-            this.chkdFormaVictoria_Lateral.Location = new System.Drawing.Point(34, 83);
-            this.chkdFormaVictoria_Lateral.Margin = new System.Windows.Forms.Padding(2);
-            this.chkdFormaVictoria_Lateral.Name = "chkdFormaVictoria_Lateral";
-            this.chkdFormaVictoria_Lateral.Size = new System.Drawing.Size(128, 64);
-            this.chkdFormaVictoria_Lateral.TabIndex = 6;
-            // 
-            // btnNuevaFormaDeGanar_Lateral
-            // 
-            this.btnNuevaFormaDeGanar_Lateral.BackColor = System.Drawing.Color.Chocolate;
-            this.btnNuevaFormaDeGanar_Lateral.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.btnNuevaFormaDeGanar_Lateral.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.btnNuevaFormaDeGanar_Lateral.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.btnNuevaFormaDeGanar_Lateral.Font = new System.Drawing.Font("Segoe UI Semibold", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNuevaFormaDeGanar_Lateral.Location = new System.Drawing.Point(69, 155);
-            this.btnNuevaFormaDeGanar_Lateral.Margin = new System.Windows.Forms.Padding(2);
-            this.btnNuevaFormaDeGanar_Lateral.Name = "btnNuevaFormaDeGanar_Lateral";
-            this.btnNuevaFormaDeGanar_Lateral.Size = new System.Drawing.Size(195, 37);
-            this.btnNuevaFormaDeGanar_Lateral.TabIndex = 7;
-            this.btnNuevaFormaDeGanar_Lateral.Text = "Crear nueva forma";
-            this.btnNuevaFormaDeGanar_Lateral.UseVisualStyleBackColor = false;
-            this.btnNuevaFormaDeGanar_Lateral.Click += new System.EventHandler(this.btnNuevaFormaDeGanar_Lateral_Click);
-            // 
-            // label1_Lateral
-            // 
-            this.label1_Lateral.AutoSize = true;
-            this.label1_Lateral.BackColor = System.Drawing.Color.DarkRed;
-            this.label1_Lateral.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.label1_Lateral.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label1_Lateral.Location = new System.Drawing.Point(41, 62);
-            this.label1_Lateral.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label1_Lateral.Name = "label1_Lateral";
-            this.label1_Lateral.Size = new System.Drawing.Size(108, 15);
-            this.label1_Lateral.TabIndex = 9;
-            this.label1_Lateral.Text = "Forma de Victoria:";
-            // 
-            // lblCantidad_Lateral
-            // 
-            this.lblCantidad_Lateral.AutoSize = true;
-            this.lblCantidad_Lateral.BackColor = System.Drawing.Color.DarkRed;
-            this.lblCantidad_Lateral.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.lblCantidad_Lateral.ForeColor = System.Drawing.Color.White;
-            this.lblCantidad_Lateral.Location = new System.Drawing.Point(172, 63);
-            this.lblCantidad_Lateral.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblCantidad_Lateral.Name = "lblCantidad_Lateral";
-            this.lblCantidad_Lateral.Size = new System.Drawing.Size(124, 15);
-            this.lblCantidad_Lateral.TabIndex = 1;
-            this.lblCantidad_Lateral.Text = "Número de cartones:";
-            // 
-            // nudCantidadCartones_Lateral
-            // 
-            this.nudCantidadCartones_Lateral.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.nudCantidadCartones_Lateral.Location = new System.Drawing.Point(191, 101);
-            this.nudCantidadCartones_Lateral.Margin = new System.Windows.Forms.Padding(2);
-            this.nudCantidadCartones_Lateral.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.nudCantidadCartones_Lateral.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nudCantidadCartones_Lateral.Name = "nudCantidadCartones_Lateral";
-            this.nudCantidadCartones_Lateral.Size = new System.Drawing.Size(88, 25);
-            this.nudCantidadCartones_Lateral.TabIndex = 2;
-            this.nudCantidadCartones_Lateral.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
             // pictureBox3
             // 
             this.pictureBox3.Image = global::LoteriaMexicana.Properties.Resources.FondoTablas;
@@ -513,8 +513,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.pnlConfigLateral.ResumeLayout(false);
             this.pnlConfigLateral.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudCantidadCartones_Lateral)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
