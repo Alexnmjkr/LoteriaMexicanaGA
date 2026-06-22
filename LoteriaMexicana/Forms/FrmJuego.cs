@@ -41,6 +41,7 @@ namespace LoteriaMexicana.Forms
         private Timer timerAuto;
         private Label lblEstadoRed;
         private Button btnCartonDobleAleatorio;
+        private bool _cartonesConDobles = false;
         private bool _ajustandoLayout = false;
 
         private Image _imagenFicha;
@@ -127,16 +128,19 @@ namespace LoteriaMexicana.Forms
             if (btnCartonDobleAleatorio == null)
             {
                 btnCartonDobleAleatorio = new Button();
-                btnCartonDobleAleatorio.Location = new Point(52, 342);
+                btnCartonDobleAleatorio.Location = new Point(52, btnNuevaFormaDeGanar_Lateral.Bottom + 8);
                 btnCartonDobleAleatorio.Size = new Size(227, 27);
-                btnCartonDobleAleatorio.Text = "Cartón doble aleatorio";
-                btnCartonDobleAleatorio.UseVisualStyleBackColor = true;
+                btnCartonDobleAleatorio.Text = "Crear cartón con dobles";
+                btnCartonDobleAleatorio.BackColor = Color.Tan;
+                btnCartonDobleAleatorio.UseVisualStyleBackColor = false;
                 btnCartonDobleAleatorio.Click += btnCartonDobleAleatorio_Click;
 
                 if (pnlConfigLateral != null)
                     pnlConfigLateral.Controls.Add(btnCartonDobleAleatorio);
                 else
                     Controls.Add(btnCartonDobleAleatorio);
+
+                btnCartonDobleAleatorio.BringToFront();
             }
 
             lstHistorial.DrawMode = DrawMode.OwnerDrawFixed;
@@ -266,7 +270,7 @@ namespace LoteriaMexicana.Forms
 
             for (int i = 0; i < _cantidadCartones; i++)
             {
-                _cartonesJugador.Add(new CartonJugador(ObtenerTodasLasCartas()));
+                _cartonesJugador.Add(CrearCartonAutomatico(_cartonesConDobles));
             }
 
             _indiceCartonActual = 0;
@@ -297,6 +301,41 @@ namespace LoteriaMexicana.Forms
             nudVelocidad.Enabled = true;
 
             AplicarModoRed();
+        }
+
+        private CartonJugador CrearCartonAutomatico(bool permitirDobles)
+        {
+            CartonJugador cartonNuevo = new CartonJugador(ObtenerTodasLasCartas());
+
+            if (permitirDobles)
+                cartonNuevo.CargarCartas(GenerarCartasConUnDoble());
+
+            return cartonNuevo;
+        }
+
+        private void RegenerarCartonesAutomaticos(bool permitirDobles)
+        {
+            _cartonesConDobles = permitirDobles;
+
+            if (_cartonesJugador == null || _cartonesJugador.Count == 0)
+                return;
+
+            for (int i = 0; i < _cartonesJugador.Count; i++)
+            {
+                Carta[,] cartas = permitirDobles
+                    ? GenerarCartasConUnDoble()
+                    : null;
+
+                if (permitirDobles)
+                    _cartonesJugador[i].CargarCartas(cartas);
+                else
+                    _cartonesJugador[i].CrearNuevoCarton(ObtenerTodasLasCartas(), false);
+            }
+
+            _indiceCartonActual = Math.Min(_indiceCartonActual, _cartonesJugador.Count - 1);
+            _carton = _cartonesJugador[_indiceCartonActual];
+            DibujarTodosLosCartones();
+            ActualizarGridCarton();
         }
 
         private void CrearControlesCartones()
@@ -903,7 +942,12 @@ namespace LoteriaMexicana.Forms
                 int indiceCarton = _indicesCartonesEnDesempate[i];
 
                 if (indiceCarton >= 0 && indiceCarton < _cartonesJugador.Count)
-                    _cartonesJugador[indiceCarton].CrearNuevoCarton(todasLasCartas, false);
+                {
+                    if (_cartonesConDobles)
+                        _cartonesJugador[indiceCarton].CargarCartas(GenerarCartasConUnDoble());
+                    else
+                        _cartonesJugador[indiceCarton].CrearNuevoCarton(todasLasCartas, false);
+                }
             }
         }
 
@@ -1298,6 +1342,11 @@ namespace LoteriaMexicana.Forms
                 {
                     SincronizarCartasCantadas(mensaje.Substring(5));
                 }
+                else if (mensaje == "DOBLES|1")
+                {
+                    RegenerarCartonesAutomaticos(true);
+                    AgregarMensajeChat("La partida usará cartones con cartas dobles.");
+                }
                 else if (mensaje.StartsWith("JOIN|"))
                 {
                     string jugador = mensaje.Substring(5);
@@ -1379,6 +1428,9 @@ namespace LoteriaMexicana.Forms
         {
             if (!_soyServidor || _servidor == null || _baraja == null)
                 return;
+
+            if (_cartonesConDobles)
+                _servidor.Transmitir("DOBLES|1");
 
             string ids = "";
 
@@ -1547,7 +1599,21 @@ namespace LoteriaMexicana.Forms
 
         private void FrmJuego_Load(object sender, EventArgs e)
         {
+            PosicionarBotonCartonDoble();
             AjustarLayoutPantallaGrande();
+        }
+
+        private void PosicionarBotonCartonDoble()
+        {
+            if (btnCartonDobleAleatorio == null || btnNuevaFormaDeGanar_Lateral == null)
+                return;
+
+            btnCartonDobleAleatorio.Location = new Point(
+                btnNuevaFormaDeGanar_Lateral.Left,
+                btnNuevaFormaDeGanar_Lateral.Bottom + 8);
+            btnCartonDobleAleatorio.Size = btnNuevaFormaDeGanar_Lateral.Size;
+            btnCartonDobleAleatorio.BringToFront();
+            btnNuevaFormaDeGanar_Lateral.BringToFront();
         }
 
         // --- AÑADIDO: panel lateral config ---
@@ -1879,7 +1945,7 @@ namespace LoteriaMexicana.Forms
             if (_soyCliente)
             {
                 MessageBox.Show(
-                    "Los clientes no pueden crear una tabla nueva durante una partida en red.",
+                    "Solo el servidor puede activar los cartones con dobles durante una partida en red.",
                     "Acción no permitida",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
@@ -1887,8 +1953,24 @@ namespace LoteriaMexicana.Forms
                 return;
             }
 
-            CartonJugador cartonNuevo = new CartonJugador(ObtenerTodasLasCartas());
-            cartonNuevo.CargarCartas(GenerarCartasConUnDoble());
+            _cartonesConDobles = true;
+
+            if (_soyServidor && _servidor != null)
+            {
+                RegenerarCartonesAutomaticos(true);
+                _servidor.Transmitir("DOBLES|1");
+                AgregarMensajeChat("La partida usará cartones con cartas dobles.");
+
+                MessageBox.Show(
+                    "Cartones con dobles activados.\n\nLos jugadores conectados regenerarán su cartón automáticamente.",
+                    "Cartones con dobles",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                return;
+            }
+
+            CartonJugador cartonNuevo = CrearCartonAutomatico(true);
             AgregarCartonNuevo(cartonNuevo);
 
             DialogResult guardar = MessageBox.Show(
