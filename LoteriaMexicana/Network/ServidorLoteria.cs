@@ -30,6 +30,9 @@ namespace LoteriaMexicana.Network
 
         public void Transmitir(string mensaje)
         {
+            if (!_activo)
+                return;
+
             List<TcpClient> desconectados = new List<TcpClient>();
 
             lock (_clientes)
@@ -114,7 +117,7 @@ namespace LoteriaMexicana.Network
                 lock (_clientes)
                     _clientes.Remove(cliente);
 
-                cliente.Close();
+                try { cliente.Close(); } catch { }
             }
         }
 

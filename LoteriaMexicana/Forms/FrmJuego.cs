@@ -40,6 +40,7 @@ namespace LoteriaMexicana.Forms
             new List<PictureBox[,]>();
         private Timer timerAuto;
         private Label lblEstadoRed;
+        private Button btnCartonDobleAleatorio;
         private bool _ajustandoLayout = false;
 
         private Image _imagenFicha;
@@ -121,6 +122,21 @@ namespace LoteriaMexicana.Forms
                 {
                     Controls.Add(lblEstadoRed);
                 }
+            }
+
+            if (btnCartonDobleAleatorio == null)
+            {
+                btnCartonDobleAleatorio = new Button();
+                btnCartonDobleAleatorio.Location = new Point(52, 342);
+                btnCartonDobleAleatorio.Size = new Size(227, 27);
+                btnCartonDobleAleatorio.Text = "Cartón doble aleatorio";
+                btnCartonDobleAleatorio.UseVisualStyleBackColor = true;
+                btnCartonDobleAleatorio.Click += btnCartonDobleAleatorio_Click;
+
+                if (pnlConfigLateral != null)
+                    pnlConfigLateral.Controls.Add(btnCartonDobleAleatorio);
+                else
+                    Controls.Add(btnCartonDobleAleatorio);
             }
 
             lstHistorial.DrawMode = DrawMode.OwnerDrawFixed;
@@ -1164,6 +1180,7 @@ namespace LoteriaMexicana.Forms
             btnAuto.Text = "Auto: OFF";
 
             btnCrearCarton.Enabled = !_soyCliente;
+            btnCartonDobleAleatorio.Enabled = !_soyCliente;
             nudVelocidad.Enabled = true;
 
             ActualizarEtiquetaCarton();
@@ -1231,7 +1248,12 @@ namespace LoteriaMexicana.Forms
                 _cliente.MensajeRecibido += ProcesarMensajeRed;
 
                 _cliente.Desconectado += () => EjecutarEnPantalla(() =>
-                    lblEstadoRed.Text = "Red local: desconectado");
+                {
+                    _cliente = null;
+                    _soyCliente = false;
+                    lblEstadoRed.Text = "Red local: desconectado";
+                    AplicarModoRed();
+                });
 
                 _cliente.Error += msg => EjecutarEnPantalla(() =>
                     MessageBox.Show("Error de cliente: " + msg));
@@ -1282,6 +1304,9 @@ namespace LoteriaMexicana.Forms
 
                     if (!string.IsNullOrWhiteSpace(jugador))
                         AgregarMensajeChat(jugador + " se unió a la partida.");
+
+                    if (_soyServidor)
+                        EnviarEstadoActualRed();
                 }
                 else if (mensaje.StartsWith("GANADOR|"))
                 {
@@ -1303,6 +1328,9 @@ namespace LoteriaMexicana.Forms
                     {
                         string nombre = contenido.Substring(0, separador);
                         string texto = contenido.Substring(separador + 1);
+
+                        if (_soyCliente && nombre == _nombreJugador)
+                            return;
 
                         AgregarMensajeChat($"{nombre}: {texto}");
                     }
@@ -1379,6 +1407,7 @@ namespace LoteriaMexicana.Forms
                 btnGuardarCarton.Enabled = false;
                 btnCargarCarton.Enabled = false;
                 btnCrearCarton.Enabled = false;
+                btnCartonDobleAleatorio.Enabled = false;
                 btnBuenas.Enabled = _jugando;
                 nudVelocidad.Enabled = false;
             }
@@ -1390,6 +1419,7 @@ namespace LoteriaMexicana.Forms
                 btnGuardarCarton.Enabled = true;
                 btnCargarCarton.Enabled = true;
                 btnCrearCarton.Enabled = true;
+                btnCartonDobleAleatorio.Enabled = true;
                 btnBuenas.Enabled = true;
                 nudVelocidad.Enabled = true;
             }
@@ -1412,10 +1442,12 @@ namespace LoteriaMexicana.Forms
 
             _soyServidor = false;
             _soyCliente = false;
+            _modoAuto = false;
 
             if (lblEstadoRed != null)
                 lblEstadoRed.Text = "Red local: sin conexión";
 
+            btnAuto.Text = "Auto: OFF";
             AplicarModoRed();
         }
 
@@ -1829,27 +1861,7 @@ namespace LoteriaMexicana.Forms
 
                 CartonJugador cartonNuevo = new CartonJugador(ObtenerTodasLasCartas());
                 cartonNuevo.CargarCartas(frm.CartasSeleccionadas);
-                _cartonesJugador.Add(cartonNuevo);
-                _cantidadCartones = _cartonesJugador.Count;
-                _indiceCartonActual = _cartonesJugador.Count - 1;
-                _carton = cartonNuevo;
-                DibujarTodosLosCartones();
-                ActualizarGridCarton();
-
-                _jugando = true;
-                _modoAuto = false;
-
-                btnAuto.Text = "Auto: OFF";
-                btnSacarCarta.Enabled = true;
-                btnAuto.Enabled = true;
-                btnReiniciar.Enabled = true;
-                btnGuardarCarton.Enabled = true;
-                btnCargarCarton.Enabled = true;
-                btnCrearCarton.Enabled = true;
-                btnBuenas.Enabled = true;
-                nudVelocidad.Enabled = true;
-
-                AplicarModoRed();
+                AgregarCartonNuevo(cartonNuevo);
 
                 DialogResult guardar = MessageBox.Show(
                     "Tabla creada correctamente.\n\n¿Quieres guardarla ahora?",
@@ -1860,6 +1872,99 @@ namespace LoteriaMexicana.Forms
                 if (guardar == DialogResult.Yes)
                     GuardarCartonEnArchivo();
             }
+        }
+
+        private void btnCartonDobleAleatorio_Click(object sender, EventArgs e)
+        {
+            if (_soyCliente)
+            {
+                MessageBox.Show(
+                    "Los clientes no pueden crear una tabla nueva durante una partida en red.",
+                    "Acción no permitida",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                return;
+            }
+
+            CartonJugador cartonNuevo = new CartonJugador(ObtenerTodasLasCartas());
+            cartonNuevo.CargarCartas(GenerarCartasConUnDoble());
+            AgregarCartonNuevo(cartonNuevo);
+
+            DialogResult guardar = MessageBox.Show(
+                "Tabla aleatoria creada con una carta repetida exactamente dos veces.\n\n¿Quieres guardarla ahora?",
+                "Tabla lista",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (guardar == DialogResult.Yes)
+                GuardarCartonEnArchivo();
+        }
+
+        private Carta[,] GenerarCartasConUnDoble()
+        {
+            List<Carta> cartas = new List<Carta>(ObtenerTodasLasCartas());
+            List<Carta> seleccionadas = new List<Carta>();
+            Random rng = new Random();
+
+            Carta cartaDoble = cartas[rng.Next(cartas.Count)];
+            seleccionadas.Add(cartaDoble);
+            seleccionadas.Add(cartaDoble);
+            cartas.RemoveAll(carta => carta.Id == cartaDoble.Id);
+
+            while (seleccionadas.Count < CartonJugador.TOTAL)
+            {
+                int indice = rng.Next(cartas.Count);
+                seleccionadas.Add(cartas[indice]);
+                cartas.RemoveAt(indice);
+            }
+
+            for (int i = seleccionadas.Count - 1; i > 0; i--)
+            {
+                int j = rng.Next(i + 1);
+                Carta temporal = seleccionadas[i];
+                seleccionadas[i] = seleccionadas[j];
+                seleccionadas[j] = temporal;
+            }
+
+            Carta[,] cartasCarton = new Carta[CartonJugador.FILAS, CartonJugador.COLUMNAS];
+            int posicion = 0;
+
+            for (int f = 0; f < CartonJugador.FILAS; f++)
+            {
+                for (int c = 0; c < CartonJugador.COLUMNAS; c++)
+                {
+                    cartasCarton[f, c] = seleccionadas[posicion++];
+                }
+            }
+
+            return cartasCarton;
+        }
+
+        private void AgregarCartonNuevo(CartonJugador cartonNuevo)
+        {
+            _cartonesJugador.Add(cartonNuevo);
+            _cantidadCartones = _cartonesJugador.Count;
+            _indiceCartonActual = _cartonesJugador.Count - 1;
+            _carton = cartonNuevo;
+            DibujarTodosLosCartones();
+            ActualizarGridCarton();
+
+            _jugando = true;
+            _modoAuto = false;
+
+            btnAuto.Text = "Auto: OFF";
+            btnSacarCarta.Enabled = true;
+            btnAuto.Enabled = true;
+            btnReiniciar.Enabled = true;
+            btnGuardarCarton.Enabled = true;
+            btnCargarCarton.Enabled = true;
+            btnCrearCarton.Enabled = true;
+            btnCartonDobleAleatorio.Enabled = true;
+            btnBuenas.Enabled = true;
+            nudVelocidad.Enabled = true;
+
+            AplicarModoRed();
         }
 
         private void pictureBox2_Click(object sender, EventArgs e)

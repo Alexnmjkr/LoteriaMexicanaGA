@@ -10,6 +10,7 @@ namespace LoteriaMexicana.Network
         private TcpClient _cliente;
         private StreamWriter _writer;
         private bool _conectado;
+        private bool _desconexionManual;
 
         public event Action<string> MensajeRecibido;
         public event Action Desconectado;
@@ -26,6 +27,7 @@ namespace LoteriaMexicana.Network
             _writer.AutoFlush = true;
 
             _conectado = true;
+            _desconexionManual = false;
             Task.Run(() => EscucharServidor());
         }
 
@@ -39,16 +41,22 @@ namespace LoteriaMexicana.Network
             }
             catch (Exception ex)
             {
+                _conectado = false;
                 Error?.Invoke(ex.Message);
+                Desconectar();
             }
         }
 
         public void Desconectar()
         {
+            _desconexionManual = true;
             _conectado = false;
 
             try { _writer?.Close(); } catch { }
             try { _cliente?.Close(); } catch { }
+
+            _writer = null;
+            _cliente = null;
         }
 
         private void EscucharServidor()
@@ -75,7 +83,9 @@ namespace LoteriaMexicana.Network
             finally
             {
                 _conectado = false;
-                Desconectado?.Invoke();
+
+                if (!_desconexionManual)
+                    Desconectado?.Invoke();
             }
         }
     }
